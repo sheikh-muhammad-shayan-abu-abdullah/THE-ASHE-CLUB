@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Ashé Club — Wear The Code. Join The Club.</title>
+  <meta name="description" content="The Ashé Club is a premium Gen-Z streetwear brand focused on exclusivity, confidence, individuality, and culture. First drop coming soon." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600&family=EB+Garamond:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    :root {
+      /* Dark Mode (Default) Variables */
+      --black: #0a0a0a;
+      --off-white: #f5f2ec;
+      --soft-gray: #888885;
+      --beige: #c9b99a;
+      --beige-light: #e8ddd0;
+      --dark-surface: #111110;
+      --card-bg: #141413;
+      --border: rgba(255,255,255,0.07);
+      --nav-glass-bg: rgba(20, 20, 19, 0.4);
+      --nav-scrolled-bg: rgba(10, 10, 10, 0.85);
+      --insta-bg: #111110;
+    }
+
+    body.light-mode {
+      /* Light Mode Variables */
+      --black: #f5f2ec;
+      --off-white: #0a0a0a;
+      --soft-gray: #555555;
+      --beige: #a8946b; 
+      --beige-light: #d4c8b8;
+      --dark-surface: #e8ddd0;
+      --card-bg: #ffffff;
+      --border: rgba(0,0,0,0.1);
+      --nav-glass-bg: rgba(245, 242, 236, 0.6);
+      --nav-scrolled-bg: rgba(255, 255, 255, 0.95);
+      --insta-bg: #e8ddd0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--off-white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      cursor: none;
+      overflow-x: hidden;
+      transition: background 0.5s ease, color 0.5s ease;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    #cursor-dot {
+      position: fixed; top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--off-white);
+      border-radius: 50%;
+      pointer-events: none; z-index: 99999;
+      transform: translate(-50%, -50%);
+      transition: width .15s ease, height .15s ease, background .2s ease;
+    }
+    #cursor-ring {
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1px solid rgba(201,185,154,0.55);
+      border-radius: 50%;
+      pointer-events: none; z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width .35s cubic-bezier(.25,.46,.45,.94),
+                  height .35s cubic-bezier(.25,.46,.45,.94),
+                  border-color .25s ease, box-shadow .25s ease;
+    }
+    body.hovering #cursor-dot { width: 6px; height: 6px; background: var(--beige); }
+    body.hovering #cursor-ring {
+      width: 56px; height: 56px;
+      border-color: var(--beige);
+      box-shadow: 0 0 18px rgba(201,185,154,0.3);
+    }
+
+    /* ─── LOADING SCREEN ─── */
+    #loader {
+      position: fixed; inset: 0;
+      background: var(--black);
+      z-index: 10000;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 1.4rem;
+    }
+    #loader .loader-brand {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 7vw, 5.5rem);
+      font-weight: 300; letter-spacing: 0.35em; color: var(--off-white);
+      opacity: 0; animation: fadeUp .9s .3s forwards;
+    }
+    #loader .loader-tag {
+      font-family: 'Montserrat', sans-serif; font-size: clamp(.65rem, 1.6vw, .85rem);
+      font-weight: 300; letter-spacing: 0.4em; color: var(--beige); text-transform: uppercase;
+      opacity: 0; animation: fadeUp .8s .75s forwards;
+    }
+    #loader .loader-bar-wrap {
+      width: 160px; height: 1px; background: rgba(255,255,255,0.1);
+      margin-top: 1.2rem; overflow: hidden; opacity: 0; animation: fadeUp .6s 1s forwards;
+    }
+    #loader .loader-bar {
+      height: 100%; width: 0%; background: var(--beige);
+      animation: loadBar 1.8s 1.2s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    #loader.fade-out { animation: loaderFade .9s .2s forwards; }
+    @keyframes loaderFade { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+
+    /* ─── FLOATING MASHROOB-STYLE NAVBAR ─── */
+    #navbar {
+      position: fixed;
+      top: 1.5rem; 
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 3rem);
+      max-width: 1200px;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--nav-glass-bg);
+      backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      transition: all .4s ease;
+    }
+    /* Fixed Scrolled State for both Dark and Light mode via CSS variables */
+    #navbar.scrolled {
+      top: 1rem;
+      background: var(--nav-scrolled-bg);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      border-color: var(--border);
+    }
+    
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.35rem; font-weight: 600;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--off-white);
+      text-decoration: none; transition: color 0.3s ease;
+    }
+    .nav-links { display: flex; gap: 2.8rem; list-style: none; }
+    .nav-links a {
+      font-size: .7rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--off-white); opacity: 0.7; text-decoration: none;
+      transition: opacity .25s, color 0.3s ease; position: relative;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--beige); transition: width .3s ease;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-links a:hover::after { width: 100%; }
+    
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .nav-btn {
+      display: flex; align-items: center; justify-content: center;
+      font-size: .65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--beige); background: none; border: 1px solid var(--border);
+      padding: .6rem 1.3rem; border-radius: 30px; cursor: none;
+      transition: background .25s, color .25s, border-color .25s;
+    }
+    .nav-btn:hover { background: var(--beige); color: var(--black); border-color: var(--beige); }
+    .icon-btn { padding: .6rem; border-radius: 50%; color: var(--off-white); transition: color 0.3s ease; }
+    .icon-btn:hover { color: var(--beige); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh; position: relative; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 0 3rem 6rem; overflow: hidden;
+    }
+    .hero-bg { position: absolute; inset: 0; z-index: 0; }
+    .hero-mosaic {
+      position: absolute; inset: 0; display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr; gap: 3px;
+    }
+    .mosaic-tile { background: var(--dark-surface); overflow: hidden; position: relative; }
+    .mosaic-tile::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.5) 100%);
+    }
+    body.light-mode .mosaic-tile::after {
+      background: linear-gradient(180deg, rgba(245,242,236,0.1) 0%, rgba(245,242,236,0.6) 100%);
+    }
+    .mosaic-tile:nth-child(1) { grid-column: 1; grid-row: 1/3; background: linear-gradient(145deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(2) { grid-column: 2; grid-row: 1; background: linear-gradient(155deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(3) { grid-column: 3; grid-row: 1/4; background: linear-gradient(130deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(4) { grid-column: 4; grid-row: 1/2; background: linear-gradient(170deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(5) { grid-column: 5; grid-row: 1/3; background: linear-gradient(135deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(6) { grid-column: 2; grid-row: 2/4; background: linear-gradient(160deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(7) { grid-column: 4; grid-row: 2/4; background: linear-gradient(140deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(8) { grid-column: 5; grid-row: 3; background: linear-gradient(150deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    .mosaic-tile:nth-child(9) { grid-column: 1; grid-row: 3; background: linear-gradient(165deg, var(--card-bg) 0%, var(--dark-surface) 100%); }
+    
+    .mosaic-tile::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(90deg, transparent, transparent 2px, var(--border) 2px, var(--border) 4px);
+    }
+    .mosaic-shape {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem, 8vw, 10rem);
+      font-weight: 300; color: var(--border); letter-spacing: 0.1em; user-select: none;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.1) 30%, var(--black) 100%);
+      z-index: 1;
+    }
+    body.light-mode .hero-overlay {
+      background: linear-gradient(to bottom, rgba(245,242,236,0.3) 0%, rgba(245,242,236,0.2) 30%, var(--black) 100%);
+    }
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+    .hero-eyebrow {
+      font-size: .63rem; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--beige); margin-bottom: 1.6rem; opacity: 0; animation: fadeUp .8s 2.8s forwards;
+    }
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(3.2rem, 7vw, 5.5rem);
+      font-weight: 400; line-height: 1.05; letter-spacing: 0.02em; text-transform: uppercase;
+      color: var(--off-white); margin-bottom: 1.5rem; opacity: 0; animation: fadeUp .9s 3s forwards;
+    }
+    .hero-desc {
+      font-size: .85rem; font-weight: 400; letter-spacing: 0.12em; color: var(--soft-gray);
+      margin-bottom: 2.8rem; opacity: 0; animation: fadeUp .8s 3.2s forwards;
+    }
+    .hero-buttons { display: flex; gap: 1.2rem; flex-wrap: wrap; opacity: 0; animation: fadeUp .8s 3.4s forwards; }
+    .btn-primary {
+      font-size: .68rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+      background: var(--beige); color: var(--black); border: 1px solid var(--beige);
+      padding: 1rem 2.6rem; text-decoration: none; border-radius: 40px;
+      transition: background .25s, color .25s, transform .2s; display: inline-block; cursor: none;
+    }
+    .btn-primary:hover { background: transparent; color: var(--beige); }
+    .btn-ghost {
+      font-size: .68rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+      background: transparent; color: var(--off-white); border: 1px solid var(--border);
+      padding: 1rem 2.6rem; text-decoration: none; border-radius: 40px;
+      transition: border-color .25s, color .25s; display: inline-block; cursor: none;
+    }
+    .btn-ghost:hover { border-color: var(--off-white); }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0; transform: translateY(32px);
+      transition: opacity .85s cubic-bezier(.4,0,.2,1), transform .85s cubic-bezier(.4,0,.2,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .12s; }
+    .reveal-delay-2 { transition-delay: .24s; }
+    .reveal-delay-3 { transition-delay: .36s; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    section { padding: 7rem 3rem; transition: background 0.5s ease; }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap {
+      overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 1.4rem 0; background: var(--dark-surface); transition: background 0.5s ease;
+    }
+    .marquee-inner { display: flex; gap: 0; animation: marquee 22s linear infinite; white-space: nowrap; }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 400;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--soft-gray); padding: 0 3rem; opacity: 0.5;
+    }
+    .marquee-item span { color: var(--beige); margin: 0 .6rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── COLLECTION ─── */
+    #collection { background: var(--dark-surface); }
+    .section-label {
+      font-size: .62rem; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase;
+      color: var(--beige); margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 300; line-height: 1.05; color: var(--off-white); margin-bottom: .9rem;
+    }
+    .section-subtitle {
+      font-size: .85rem; font-weight: 400; line-height: 1.8; color: var(--soft-gray);
+      max-width: 480px; margin-bottom: 3.5rem;
+    }
+
+    .products-masonry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; align-items: start; }
+    .product-card {
+      position: relative; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 8px; overflow: hidden; transition: transform .5s cubic-bezier(.25,.46,.45,.94), border-color .3s, background 0.5s ease;
+    }
+    .product-card:hover { transform: translateY(-6px); border-color: var(--beige); }
+    .product-card:nth-child(2) { margin-top: 2.8rem; }
+    .product-img { width: 100%; aspect-ratio: 3/4; position: relative; overflow: hidden; }
+    .product-img-inner {
+      position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 4.5rem; font-weight: 300;
+      color: var(--border); letter-spacing: 0.05em;
+    }
+    .product-img::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 55%, var(--card-bg) 100%);
+    }
+    .product-card:nth-child(1) .product-img { background: linear-gradient(148deg, var(--dark-surface) 0%, var(--card-bg) 100%); }
+    .product-card:nth-child(2) .product-img { background: linear-gradient(132deg, var(--dark-surface) 0%, var(--card-bg) 100%); }
+    .product-card:nth-child(3) .product-img { background: linear-gradient(155deg, var(--dark-surface) 0%, var(--card-bg) 100%); }
+    
+    .product-img::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(45deg, transparent, transparent 28px, var(--border) 28px, var(--border) 29px),
+                        repeating-linear-gradient(-45deg, transparent, transparent 28px, var(--border) 28px, var(--border) 29px);
+    }
+    .product-badge {
+      position: absolute; top: 1rem; left: 1rem; font-size: .58rem; font-weight: 600;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--black);
+      background: var(--beige); padding: .38rem .9rem; border-radius: 20px; z-index: 2;
+    }
+    .product-body { padding: 1.5rem; }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 500;
+      color: var(--off-white); margin-bottom: .4rem;
+    }
+    .product-detail {
+      font-size: .68rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--soft-gray); margin-bottom: 1.4rem;
+    }
+    .btn-notify {
+      font-size: .62rem; font-weight: 600; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--off-white); background: none; border: 1px solid var(--border);
+      padding: .75rem 1.6rem; border-radius: 30px; width: 100%; cursor: none;
+      transition: border-color .25s, background .25s, color .25s;
+    }
+    .btn-notify:hover { border-color: var(--beige); background: var(--beige); color: var(--black); }
+
+    /* ─── ABOUT ─── */
+    #about { background: var(--black); position: relative; overflow: hidden; }
+    #about::before {
+      content: 'ASHÉ'; position: absolute; right: -2rem; top: 50%; transform: translateY(-50%);
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(8rem, 20vw, 18rem);
+      font-weight: 300; color: var(--border); opacity: 0.5; letter-spacing: 0.1em;
+      pointer-events: none; user-select: none; white-space: nowrap;
+    }
+    .about-inner { max-width: 720px; }
+    .about-quote {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 300; font-style: italic; line-height: 1.45; color: var(--off-white);
+      margin-bottom: 2.2rem; border-left: 2px solid var(--beige); padding-left: 2rem;
+    }
+    .about-text { font-size: .85rem; font-weight: 400; line-height: 1.9; color: var(--soft-gray); }
+    .about-stat-row { display: flex; gap: 4rem; margin-top: 3rem; flex-wrap: wrap; }
+    .about-stat .stat-num {
+      font-family: 'Cormorant Garamond', serif; font-size: 2.8rem; font-weight: 300;
+      color: var(--beige); line-height: 1;
+    }
+    .about-stat .stat-label {
+      font-size: .62rem; font-weight: 500; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--soft-gray); margin-top: .4rem;
+    }
+
+    /* ─── INSTAGRAM SECTION ─── */
+    #instagram { background: var(--insta-bg); text-align: center; border-top: 1px solid var(--border); }
+    .insta-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;
+      justify-items: center; align-items: start; margin-top: 3rem;
+    }
+    .insta-item { width: 100%; display: flex; justify-content: center; }
+    /* Overriding embed background dynamically via CSS variables */
+    .instagram-media { background: var(--card-bg) !important; transition: background 0.5s ease; }
+
+    /* ─── CONTACT ─── */
+    #contact { background: var(--dark-surface); text-align: center; border-top: 1px solid var(--border); }
+    .contact-inner { max-width: 560px; margin: 0 auto; }
+    .contact-title {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 5vw, 4rem);
+      font-weight: 300; color: var(--off-white); margin-bottom: 1rem;
+    }
+    .contact-subtitle {
+      font-size: .85rem; font-weight: 400; line-height: 1.8; color: var(--soft-gray); margin-bottom: 2.6rem;
+    }
+    .btn-whatsapp {
+      display: inline-flex; align-items: center; gap: .8rem; font-size: .7rem; font-weight: 600;
+      letter-spacing: 0.22em; text-transform: uppercase; color: #fff; background: #25D366;
+      border: none; padding: 1.1rem 2.8rem; border-radius: 40px; text-decoration: none;
+      transition: transform .25s, box-shadow .25s; cursor: none;
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(37,211,102,0.3); }
+    .btn-whatsapp svg { width: 18px; height: 18px; }
+
+    /* ─── FLOATING WHATSAPP ─── */
+    #wa-float {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      width: 54px; height: 54px; background: #25D366; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(37,211,102,0.4); transition: transform .3s, box-shadow .3s;
+      cursor: none; animation: floatPulse 3s ease-in-out infinite;
+    }
+    #wa-float:hover { transform: scale(1.12); box-shadow: 0 6px 28px rgba(37,211,102,0.55); }
+    #wa-float svg { width: 26px; height: 26px; fill: white; }
+    @keyframes floatPulse {
+      0%, 100% { box-shadow: 0 4px 20px rgba(37,211,102,0.4); }
+      50% { box-shadow: 0 4px 30px rgba(37,211,102,0.6), 0 0 0 6px rgba(37,211,102,0.1); }
+    }
+
+    /* ─── FOOTER ─── */
+    #footer { background: var(--black); border-top: 1px solid var(--border); padding: 5rem 3rem 2.5rem; }
+    .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3rem; margin-bottom: 4rem; }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.45rem; font-weight: 400;
+      letter-spacing: 0.25em; text-transform: uppercase; color: var(--off-white); margin-bottom: 1rem;
+    }
+    .footer-desc { font-size: .75rem; font-weight: 400; line-height: 1.85; color: var(--soft-gray); max-width: 260px; }
+    .footer-heading {
+      font-size: .65rem; font-weight: 600; letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--beige); margin-bottom: 1.4rem;
+    }
+    .map-placeholder {
+      width: 100%; height: 180px; background: var(--card-bg); border: 1px solid var(--border);
+      border-radius: 8px; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: .6rem; position: relative; overflow: hidden;
+    }
+    .map-placeholder::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 20px, var(--border) 20px, var(--border) 21px),
+                        repeating-linear-gradient(90deg, transparent, transparent 20px, var(--border) 20px, var(--border) 21px);
+    }
+    .map-pin-icon { color: var(--beige); font-size: 1.6rem; }
+    .map-label { font-size: .62rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--soft-gray); }
+    
+    .social-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+    .social-list a {
+      display: flex; align-items: center; gap: .85rem; font-size: .75rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--soft-gray);
+      text-decoration: none; transition: color .25s, transform .25s; cursor: none;
+    }
+    .social-list a:hover { color: var(--off-white); transform: translateX(4px); }
+    .social-icon {
+      width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .25s, background .25s, color .25s; flex-shrink: 0; color: var(--off-white);
+    }
+    .social-list a:hover .social-icon { border-color: var(--beige); background: rgba(201,185,154,0.1); color: var(--beige); }
+    
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-copy { font-size: .65rem; font-weight: 400; letter-spacing: 0.15em; color: var(--soft-gray); }
+    .footer-built {
+      font-size: .65rem; font-weight: 400; letter-spacing: 0.15em; color: var(--soft-gray);
+      text-decoration: none; transition: color .25s; cursor: none; position: relative;
+    }
+    .footer-built::after {
+      content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+      background: var(--beige); transition: width .3s;
+    }
+    .footer-built:hover { color: var(--beige); }
+    .footer-built:hover::after { width: 100%; }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 768px) {
+      #navbar { width: calc(100% - 2rem); padding: .8rem 1.2rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 1.5rem 4.5rem; }
+      section { padding: 5rem 1.5rem; }
+      #contact { padding: 6rem 1.5rem; }
+      .products-masonry { grid-template-columns: 1fr; gap: 1.2rem; }
+      .product-card:nth-child(2) { margin-top: 0; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .about-stat-row { gap: 2rem; }
+      .hero-mosaic { grid-template-columns: 1fr 1fr 1fr; }
+      #wa-float { bottom: 1.5rem; right: 1.5rem; }
+    }
+    @media (max-width: 480px) {
+      .hero-mosaic { display: none; }
+      #hero::before {
+        content: ''; position: absolute; inset: 0;
+        background: linear-gradient(135deg, var(--card-bg) 0%, var(--dark-surface) 100%);
+      }
+    }
+
+    .parallax-bg { will-change: transform; }
+  </style>
+</head>
+<body>
+
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
+
+  <div id="loader">
+    <div class="loader-brand">The Ashé Club</div>
+    <div class="loader-tag">Wear The Code. Join The Club.</div>
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <a id="wa-float" href="https://wa.me/923286509300?text=Hello%2C%20I%27m%20interested%20in%20The%20Ash%C3%A9%20Club." target="_blank" rel="noopener" title="Message us on WhatsApp">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <nav id="navbar">
+    <a class="nav-logo" href="#">The Ashé Club</a>
+    <ul class="nav-links">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#instagram">Social</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="nav-btn icon-btn" title="Toggle Theme">
+        <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+      <button class="nav-btn" id="menuBtn">Menu</button>
+    </div>
+  </nav>
+
+  <section id="hero">
+    <div class="hero-bg parallax-bg" id="heroBg">
+      <div class="hero-mosaic">
+        <div class="mosaic-tile"><div class="mosaic-shape">I</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">II</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">III</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">IV</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">V</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">VI</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">VII</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">VIII</div></div>
+        <div class="mosaic-tile"><div class="mosaic-shape">IX</div></div>
+      </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">First Drop — Coming Soon</p>
+      <h1 class="hero-title">Wear The Code.<br/>Join The Club.</h1>
+      <p class="hero-desc">A new generation of streetwear is coming.</p>
+      <div class="hero-buttons">
+        <a href="https://wa.me/923286509300?text=Hello%2C%20I%27m%20interested%20in%20The%20Ash%C3%A9%20Club." target="_blank" class="btn-primary">Notify Me</a>
+        <a href="#collection" class="btn-ghost">Explore</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <span class="marquee-item">The Ashé Club<span>✦</span></span>
+      <span class="marquee-item">First Drop Incoming<span>✦</span></span>
+      <span class="marquee-item">Wear The Code<span>✦</span></span>
+      <span class="marquee-item">Join The Club<span>✦</span></span>
+      <span class="marquee-item">Confidence<span>✦</span></span>
+      <span class="marquee-item">Culture<span>✦</span></span>
+      <span class="marquee-item">Individuality<span>✦</span></span>
+      <span class="marquee-item">The Ashé Club<span>✦</span></span>
+      <span class="marquee-item">First Drop Incoming<span>✦</span></span>
+      <span class="marquee-item">Wear The Code<span>✦</span></span>
+      <span class="marquee-item">Join The Club<span>✦</span></span>
+      <span class="marquee-item">Confidence<span>✦</span></span>
+      <span class="marquee-item">Culture<span>✦</span></span>
+      <span class="marquee-item">Individuality<span>✦</span></span>
+    </div>
+  </div>
+
+ <section id="collection">
+  <p class="section-label reveal">First Drop</p>
+  <h2 class="section-title reveal reveal-delay-1">First Drop<br/>Incoming</h2>
+  <p class="section-subtitle reveal reveal-delay-2">Built for those who create trends, not follow them.</p>
+
+  <div class="products-masonry">
+    <div class="product-card reveal reveal-delay-1">
+      <div class="product-img">
+        <img class="product-img-inner" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTh2SKR2npoVLds4HkgUnvdvH4kOcMoi_AiUxY5QZ8fbFiiPBLlqq1WteU&s=10" alt="Baggy Jeans">
+        <div class="product-badge">Coming Soon</div>
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Baggy Jeans</h3>
+        <p class="product-detail">Relaxed Fit — Washed Denim</p>
+        <button class="btn-notify" onclick="notifyMe()">Notify Me</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-2">
+      <div class="product-img">
+        <img class="product-img-inner" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQUbWMwjtFLCRSHanhRZe9x6tWssNiacdM1bgplpGHo6kA6xDiyG8vxEg0&s=10" alt="Oversized Tee">
+        <div class="product-badge">Coming Soon</div>
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Oversized Tee</h3>
+        <p class="product-detail">Boxy Cut — Premium Cotton</p>
+        <button class="btn-notify" onclick="notifyMe()">Notify Me</button>
+      </div>
+    </div>
+
+    <div class="product-card reveal reveal-delay-3">
+      <div class="product-img">
+        <img class="product-img-inner" src="https://xcdn.next.co.uk/common/items/default/default/itemimages/3_4Ratio/product/lge/F17015s.jpg?im=Resize,width=750" alt="Heavyweight Hoodie">
+        <div class="product-badge">Coming Soon</div>
+      </div>
+      <div class="product-body">
+        <h3 class="product-name">Heavyweight Hoodie</h3>
+        <p class="product-detail">500gsm Fleece — Limited Edition</p>
+        <button class="btn-notify" onclick="notifyMe()">Notify Me</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <section id="about">
+    <div class="about-inner">
+      <p class="section-label reveal">Our Story</p>
+      <h2 class="section-title reveal reveal-delay-1">More Than<br/>Clothing</h2>
+      <blockquote class="about-quote reveal reveal-delay-2">
+        "The Ashé Club is a statement of confidence, culture, and individuality."
+      </blockquote>
+      <p class="about-text reveal reveal-delay-3">
+        Designed for a generation that chooses authenticity over approval. We're not chasing trends — we're setting them. The Ashé Club is built for the ones who move differently, think differently, dress differently.
+      </p>
+      <div class="about-stat-row">
+        <div class="about-stat reveal reveal-delay-1">
+          <div class="stat-num">01</div>
+          <div class="stat-label">First Drop</div>
+        </div>
+        <div class="about-stat reveal reveal-delay-2">
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Exclusivity</div>
+        </div>
+        <div class="about-stat reveal reveal-delay-3">
+          <div class="stat-num">PK</div>
+          <div class="stat-label">Origin</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="instagram">
+    <p class="section-label reveal">Community</p>
+    <h2 class="section-title reveal reveal-delay-1">Latest on Instagram</h2>
+    <p class="section-subtitle reveal reveal-delay-2" style="margin: 0 auto 3.5rem;">Follow the movement.</p>
+    
+    <div class="insta-grid reveal reveal-delay-3">
+      <div class="insta-item">
+       <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZFZ4vQjC49/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DZFZ4vQjC49/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DZFZ4vQjC49/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by The Ashé Club | Gen-Z Wear (@theashe.club)</a></p></div></blockquote>
+      </div>
+
+      <div class="insta-item">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZE0SIVjEvo/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DZE0SIVjEvo/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DZE0SIVjEvo/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by The Ashé Club | Gen-Z Wear (@theashe.club)</a></p></div></blockquote>
+      </div>
+
+      <div class="insta-item">
+        <blockquote class="instagram-media" data-instgrm-permalink="https://www.instagram.com/p/DZFTYlYDJtA/?utm_source=ig_embed&amp;utm_campaign=loading" data-instgrm-version="14" style=" background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"><div style="padding:16px;"> <a href="https://www.instagram.com/p/DZFTYlYDJtA/?utm_source=ig_embed&amp;utm_campaign=loading" style=" background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank"> <div style=" display: flex; flex-direction: row; align-items: center;"> <div style="background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 40px; margin-right: 14px; width: 40px;"></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 100px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 60px;"></div></div></div><div style="padding: 19% 0;"></div> <div style="display:block; height:50px; margin:0 auto 12px; width:50px;"><svg width="50px" height="50px" viewBox="0 0 60 60" version="1.1" xmlns="https://www.w3.org/2000/svg" xmlns:xlink="https://www.w3.org/1999/xlink"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g transform="translate(-511.000000, -20.000000)" fill="#000000"><g><path d="M556.869,30.41 C554.814,30.41 553.148,32.076 553.148,34.131 C553.148,36.186 554.814,37.852 556.869,37.852 C558.924,37.852 560.59,36.186 560.59,34.131 C560.59,32.076 558.924,30.41 556.869,30.41 M541,60.657 C535.114,60.657 530.342,55.887 530.342,50 C530.342,44.114 535.114,39.342 541,39.342 C546.887,39.342 551.658,44.114 551.658,50 C551.658,55.887 546.887,60.657 541,60.657 M541,33.886 C532.1,33.886 524.886,41.1 524.886,50 C524.886,58.899 532.1,66.113 541,66.113 C549.9,66.113 557.115,58.899 557.115,50 C557.115,41.1 549.9,33.886 541,33.886 M565.378,62.101 C565.244,65.022 564.756,66.606 564.346,67.663 C563.803,69.06 563.154,70.057 562.106,71.106 C561.058,72.155 560.06,72.803 558.662,73.347 C557.607,73.757 556.021,74.244 553.102,74.378 C549.944,74.521 548.997,74.552 541,74.552 C533.003,74.552 532.056,74.521 528.898,74.378 C525.979,74.244 524.393,73.757 523.338,73.347 C521.94,72.803 520.942,72.155 519.894,71.106 C518.846,70.057 518.197,69.06 517.654,67.663 C517.244,66.606 516.755,65.022 516.623,62.101 C516.479,58.943 516.448,57.996 516.448,50 C516.448,42.003 516.479,41.056 516.623,37.899 C516.755,34.978 517.244,33.391 517.654,32.338 C518.197,30.938 518.846,29.942 519.894,28.894 C520.942,27.846 521.94,27.196 523.338,26.654 C524.393,26.244 525.979,25.756 528.898,25.623 C532.057,25.479 533.004,25.448 541,25.448 C548.997,25.448 549.943,25.479 553.102,25.623 C556.021,25.756 557.607,26.244 558.662,26.654 C560.06,27.196 561.058,27.846 562.106,28.894 C563.154,29.942 563.803,30.938 564.346,32.338 C564.756,33.391 565.244,34.978 565.378,37.899 C565.522,41.056 565.552,42.003 565.552,50 C565.552,57.996 565.522,58.943 565.378,62.101 M570.82,37.631 C570.674,34.438 570.167,32.258 569.425,30.349 C568.659,28.377 567.633,26.702 565.965,25.035 C564.297,23.368 562.623,22.342 560.652,21.575 C558.743,20.834 556.562,20.326 553.369,20.18 C550.169,20.033 549.148,20 541,20 C532.853,20 531.831,20.033 528.631,20.18 C525.438,20.326 523.257,20.834 521.349,21.575 C519.376,22.342 517.703,23.368 516.035,25.035 C514.368,26.702 513.342,28.377 512.574,30.349 C511.834,32.258 511.326,34.438 511.181,37.631 C511.035,40.831 511,41.851 511,50 C511,58.147 511.035,59.17 511.181,62.369 C511.326,65.562 511.834,67.743 512.574,69.651 C513.342,71.625 514.368,73.296 516.035,74.965 C517.703,76.634 519.376,77.658 521.349,78.425 C523.257,79.167 525.438,79.673 528.631,79.82 C531.831,79.965 532.853,80.001 541,80.001 C549.148,80.001 550.169,79.965 553.369,79.82 C556.562,79.673 558.743,79.167 560.652,78.425 C562.623,77.658 564.297,76.634 565.965,74.965 C567.633,73.296 568.659,71.625 569.425,69.651 C570.167,67.743 570.674,65.562 570.82,62.369 C570.966,59.17 571,58.147 571,50 C571,41.851 570.966,40.831 570.82,37.631"></path></g></g></g></svg></div><div style="padding-top: 8px;"> <div style=" color:#3897f0; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:550; line-height:18px;">View this post on Instagram</div></div><div style="padding: 12.5% 0;"></div> <div style="display: flex; flex-direction: row; margin-bottom: 14px; align-items: center;"><div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(0px) translateY(7px);"></div> <div style="background-color: #F4F4F4; height: 12.5px; transform: rotate(-45deg) translateX(3px) translateY(1px); width: 12.5px; flex-grow: 0; margin-right: 14px; margin-left: 2px;"></div> <div style="background-color: #F4F4F4; border-radius: 50%; height: 12.5px; width: 12.5px; transform: translateX(9px) translateY(-18px);"></div></div><div style="margin-left: 8px;"> <div style=" background-color: #F4F4F4; border-radius: 50%; flex-grow: 0; height: 20px; width: 20px;"></div> <div style=" width: 0; height: 0; border-top: 2px solid transparent; border-left: 6px solid #f4f4f4; border-bottom: 2px solid transparent; transform: translateX(16px) translateY(-4px) rotate(30deg)"></div></div><div style="margin-left: auto;"> <div style=" width: 0px; border-top: 8px solid #F4F4F4; border-right: 8px solid transparent; transform: translateY(16px);"></div> <div style=" background-color: #F4F4F4; flex-grow: 0; height: 12px; width: 16px; transform: translateY(-4px);"></div> <div style=" width: 0; height: 0; border-top: 8px solid #F4F4F4; border-left: 8px solid transparent; transform: translateY(-4px) translateX(8px);"></div></div></div> <div style="display: flex; flex-direction: column; flex-grow: 1; justify-content: center; margin-bottom: 24px;"> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; margin-bottom: 6px; width: 224px;"></div> <div style=" background-color: #F4F4F4; border-radius: 4px; flex-grow: 0; height: 14px; width: 144px;"></div></div></a><p style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; line-height:17px; margin-bottom:0; margin-top:8px; overflow:hidden; padding:8px 0 7px; text-align:center; text-overflow:ellipsis; white-space:nowrap;"><a href="https://www.instagram.com/p/DZFTYlYDJtA/?utm_source=ig_embed&amp;utm_campaign=loading" style=" color:#c9c8cd; font-family:Arial,sans-serif; font-size:14px; font-style:normal; font-weight:normal; line-height:17px; text-decoration:none;" target="_blank">A post shared by The Ashé Club | Gen-Z Wear (@theashe.club)</a></p></div></blockquote>
+      </div>
+    </div>
+  </section>
+  <script async src="https://www.instagram.com/embed.js"></script>
+
+  <section id="contact">
+    <div class="contact-inner">
+      <p class="section-label reveal">Get In Touch</p>
+      <h2 class="contact-title reveal reveal-delay-1">Join The<br/>Movement</h2>
+      <p class="contact-subtitle reveal reveal-delay-2">
+        Be the first to know when the first drop goes live. Reach out and we'll add you to the exclusive list.
+      </p>
+      <div class="reveal reveal-delay-3">
+        <a href="https://wa.me/923286509300?text=Hello%2C%20I%27m%20interested%20in%20The%20Ash%C3%A9%20Club." target="_blank" class="btn-whatsapp">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Message Us On WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer id="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">The Ashé Club</div>
+        <p class="footer-desc">The Ashé Club is a modern streetwear movement built for confidence, culture, and individuality.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Find Us</p>
+        <div class="map-placeholder">
+          <div class="map-pin-icon">⊕</div>
+          <div class="map-label">Location — Coming Soon</div>
+        </div>
+      </div>
+      <div>
+        <p class="footer-heading">Follow</p>
+        <ul class="social-list">
+          <li>
+            <a href="https://www.instagram.com/theashe.club" target="_blank">
+              <span class="social-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+              </span>
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="https://www.tiktok.com/@the.ashe.club" target="_blank">
+              <span class="social-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path></svg>
+              </span>
+              TikTok
+            </a>
+          </li>
+          <li>
+            <a href="https://www.facebook.com/profile.php?id=61590344381600" target="_blank">
+              <span class="social-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+              </span>
+              Facebook
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 The Ashé Club. All rights reserved.</p>
+      <a href="https://www.instagram.com/shayan.hanafii" class="footer-built">Built by Shayan</a>
+    </div>
+  </footer>
+
+  <script>
+    // ─── CURSOR ───
+    const dot = document.getElementById('cursor-dot');
+    const ring = document.getElementById('cursor-ring');
+    let mouseX = 0, mouseY = 0;
+    let ringX = 0, ringY = 0;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX; mouseY = e.clientY;
+      dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px';
+    });
+
+    (function animateRing() {
+      ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15;
+      ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    })();
+
+    document.querySelectorAll('a, button, .product-card, .btn-notify, .btn-primary, .btn-ghost, .btn-whatsapp, .nav-btn').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+    });
+
+    // ─── THEME TOGGLE ───
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    let isLightMode = false;
+
+    themeToggle.addEventListener('click', () => {
+      isLightMode = !isLightMode;
+      document.body.classList.toggle('light-mode', isLightMode);
+      
+      if(isLightMode) {
+        // Moon Icon
+        themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+      } else {
+        // Sun Icon
+        themeIcon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+      }
+    });
+
+    // ─── LOADER ───
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const loader = document.getElementById('loader');
+        loader.classList.add('fade-out');
+        setTimeout(() => loader.style.display = 'none', 1100);
+      }, 3200);
+    });
+
+    // ─── NAVBAR SCROLL ───
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    });
+
+    // ─── SCROLL REVEAL ───
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ─── HERO PARALLAX ───
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      if (heroBg) heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+    });
+
+    // ─── NOTIFY ME → WhatsApp ───
+    function notifyMe() {
+      window.open('https://wa.me/923286509300?text=Hello%2C%20I%27m%20interested%20in%20The%20Ash%C3%A9%20Club.', '_blank');
+    }
+
+    // ─── SMOOTH ANCHOR SCROLL ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ─── MENU BUTTON (mobile/visual) ───
+    const menuBtn = document.getElementById('menuBtn');
+    const navLinks = document.querySelector('.nav-links');
+    let menuOpen = false;
+    menuBtn.addEventListener('click', () => {
+      menuOpen = !menuOpen;
+      if (menuOpen) {
+        navLinks.style.cssText = `
+          display: flex; flex-direction: column; position: fixed;
+          top: 0; left: 0; right: 0; bottom: 0;
+          background: rgba(10,10,10,0.97); align-items: center; justify-content: center;
+          gap: 2.5rem; z-index: 999; backdrop-filter: blur(20px);
+        `;
+        navLinks.querySelectorAll('a').forEach(a => {
+          a.style.cssText = 'font-size: 1.1rem; letter-spacing: 0.3em;';
+        });
+        menuBtn.textContent = 'Close';
+      } else {
+        navLinks.removeAttribute('style');
+        navLinks.querySelectorAll('a').forEach(a => a.removeAttribute('style'));
+        menuBtn.textContent = 'Menu';
+      }
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        if (menuOpen) menuBtn.click();
+      });
+    });
+  </script>
+</body>
+</html>
