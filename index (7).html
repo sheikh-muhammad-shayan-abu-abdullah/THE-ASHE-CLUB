@@ -1,0 +1,2677 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<!-- ════════════════════════════════════════════════════════════════════
+  THE ASHÉ CLUB — Ultra-Luxury Fine Jewellery
+  Pakistan's most exclusive fine jewellery house.
+
+  Built by Muhammad Shayan 
+  https://instagram.com/shayan_hanafii
+
+  EDITING GUIDE (Notepad-safe):
+  ─────────────────────────────
+  • Prices   → search "PKR" to find and update any price
+  • Products → each <article class="pc"> block is one product card
+  • data-t   → the filter category: ring | time | neck | brace | ear
+  • WhatsApp → replace "923256488623" with your number (digits only)
+  • Colours  → all brand colours are CSS variables in :root { }
+  ════════════════════════════════════════════════════════════════════ -->
+
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport"    content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The Ashé Club — Ultra-Luxury Jewellery. Pakistan's most exclusive fine jewellery house." />
+
+  <title>The Ashé Club — Curated Luxury</title>
+
+  <!-- Fonts --------------------------------------------------------- -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+
+/* ════════════════════════════════════════════════════════════════════
+   § 0  DESIGN TOKENS
+   ════════════════════════════════════════════════════════════════════ */
+:root {
+
+  /* — Palette — */
+  --cream     : #FDFBF7;
+  --linen     : #F5F0E8;
+  --fog       : #EDE8DF;
+  --blush     : #E8D5C8;
+
+  --sage      : #8FA68B;
+  --sage-d    : #5E7A5A;
+  --sage-lt   : #B8CCAB;
+
+  --gold      : #C9A96E;
+  --gold-lt   : #E2C98A;
+  --gold-d    : #A07840;
+
+  --emerald   : #2E7D52;
+  --emerald-lt: #4CAF78;
+
+  --char      : #2D2D2D;
+  --smoke     : #7A7269;
+
+  --dark      : #1A1714;
+  --dark2     : #221F1B;
+  --dark3     : #0F0D0B;
+
+  --purple      : #9B30FF;
+  --purple-glow : rgba(155,48,255, 0.35);
+
+  /* — Typography — */
+  --font-serif : 'Cormorant Garamond', 'Georgia', serif;
+  --font-sans  : 'Jost', 'Helvetica Neue', sans-serif;
+
+  /* — Radii — */
+  --r-pill : 999px;
+  --r-card : 20px;
+  --r-img  : 16px;
+
+  /* — Shadows — */
+  --sh-f : 0 8px 40px rgba(45,35,25,.10), 0 2px 8px rgba(45,35,25,.06);
+  --sh-c : 0 4px 24px rgba(45,35,25,.08);
+  --sh-h : 0 16px 56px rgba(45,35,25,.16);
+
+  /* — Spacing — */
+  --gap : clamp(24px, 5vw, 72px);
+  --sp  : clamp(80px, 10vw, 140px);
+  --nav : 76px;
+
+  /* — Easing — */
+  --ease   : cubic-bezier(.16, 1, .3, 1);
+  --spring : cubic-bezier(.34, 1.56, .64, 1);
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 1  RESET & BASE
+   ════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  margin     : 0;
+  padding    : 0;
+  box-sizing : border-box;
+}
+
+html {
+  font-size      : 15px;
+  scroll-behavior: smooth;
+}
+
+body {
+  background            : var(--cream);
+  color                 : var(--char);
+  font-family           : var(--font-sans);
+  font-weight           : 300;
+  line-height           : 1.65;
+  overflow-x            : hidden;
+  -webkit-font-smoothing: antialiased;
+  cursor                : none;
+}
+
+img  { display: block; width: 100%; height: 100%; object-fit: cover; }
+a    { text-decoration: none; color: inherit; }
+ul   { list-style: none; }
+
+::selection { background: var(--gold-lt); color: var(--char); }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 2  LOADING SCREEN
+   ════════════════════════════════════════════════════════════════════ */
+#loader {
+  position       : fixed;
+  inset          : 0;
+  z-index        : 99999;
+  background     : var(--sage-d);
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  justify-content: center;
+  gap            : 32px;
+  overflow       : hidden;
+  transition     : transform 1.1s cubic-bezier(.77,0,.175,1);
+}
+#loader.hide { transform: translateY(-100%); }
+
+.loader-logo {
+  font-family   : var(--font-serif);
+  font-size     : clamp(3rem, 8vw, 6rem);
+  font-weight   : 300;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color         : var(--cream);
+  animation     : loaderPulse 1.8s ease-in-out infinite;
+}
+
+.loader-bar-wrap {
+  width        : 260px;
+  height       : 1px;
+  background   : rgba(253,251,247,.2);
+  border-radius: 4px;
+  overflow     : hidden;
+}
+.loader-bar {
+  height    : 100%;
+  width     : 0;
+  background: var(--gold-lt);
+  transition: width .05s linear;
+}
+
+.loader-txt {
+  font-size     : .58rem;
+  letter-spacing: .4em;
+  text-transform: uppercase;
+  color         : rgba(253,251,247,.55);
+}
+
+.loader-leaf {
+  position  : absolute;
+  font-size : 1.8rem;
+  opacity   : .12;
+  animation : floatLeaf 6s ease-in-out infinite;
+}
+.loader-leaf:nth-child(1) { top: 10%;    left: 8%;   animation-delay: 0s;  }
+.loader-leaf:nth-child(2) { top: 20%;    right: 10%; animation-delay: 1s;  }
+.loader-leaf:nth-child(3) { bottom: 15%; left: 12%;  animation-delay: 2s;  }
+.loader-leaf:nth-child(4) { bottom: 25%; right: 8%;  animation-delay: .5s; }
+
+@keyframes loaderPulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: .75; transform: scale(.98); }
+}
+@keyframes floatLeaf {
+  0%, 100% { transform: translateY(0)     rotate(0deg);  }
+  50%       { transform: translateY(-20px) rotate(10deg); }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 3  CUSTOM CURSOR
+   ════════════════════════════════════════════════════════════════════ */
+#cur-dot {
+  position     : fixed;
+  width        : 8px;
+  height       : 8px;
+  border-radius: 50%;
+  background   : var(--purple);
+  pointer-events: none;
+  z-index      : 99998;
+  transform    : translate(-50%, -50%);
+  box-shadow   : 0 0 10px var(--purple), 0 0 20px var(--purple-glow);
+  transition   : width .2s var(--spring), height .2s var(--spring), background .2s;
+}
+
+#cur-ring {
+  position       : fixed;
+  width          : 36px;
+  height         : 36px;
+  border-radius  : 50%;
+  border         : 1.5px solid var(--purple);
+  pointer-events : none;
+  z-index        : 99997;
+  transform      : translate(-50%, -50%);
+  box-shadow     : 0 0 12px var(--purple-glow);
+  transition     : width .35s var(--ease), height .35s var(--ease), border-color .3s, box-shadow .3s;
+  backdrop-filter: blur(1px);
+}
+
+body.cur-big #cur-dot  { width: 14px; height: 14px; background: var(--gold); box-shadow: 0 0 16px var(--gold), 0 0 32px rgba(201,169,110,.4); }
+body.cur-big #cur-ring { width: 60px; height: 60px; border-color: var(--gold); box-shadow: 0 0 20px rgba(201,169,110,.35); }
+
+@media (hover: none) {
+  #cur-dot, #cur-ring { display: none; }
+  body                { cursor: auto;  }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 4  NAVIGATION
+   ════════════════════════════════════════════════════════════════════ */
+#nav {
+  position        : fixed;
+  top             : 0;
+  left            : 0;
+  right           : 0;
+  z-index         : 9000;
+  height          : var(--nav);
+  display         : flex;
+  align-items     : center;
+  justify-content : space-between;
+  padding         : 0 var(--gap);
+  background      : rgba(253,251,247,.82);
+  backdrop-filter : blur(20px);
+  border-bottom   : 1px solid rgba(214,204,190,.5);
+  transition      : all .6s var(--ease);
+}
+
+/* Scrolled pill state */
+#nav.sc {
+  top          : 14px;
+  left         : 50%;
+  right        : auto;
+  transform    : translateX(-50%);
+  width        : min(580px, calc(100% - 32px));
+  height       : 54px;
+  border-radius: var(--r-pill);
+  border       : 1px solid rgba(201,169,110,.4);
+  box-shadow   : 0 8px 32px rgba(45,35,25,.12), 0 0 0 1px rgba(201,169,110,.1);
+  padding      : 0 28px;
+  background   : rgba(253,251,247,.92);
+}
+
+.nav-logo {
+  font-family   : var(--font-serif);
+  font-size     : 1.3rem;
+  font-weight   : 400;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color         : var(--char);
+}
+
+.nav-lks { display: flex; gap: 36px; }
+.nav-lks a {
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  transition    : color .3s;
+  position      : relative;
+}
+.nav-lks a::after {
+  content   : '';
+  position  : absolute;
+  bottom    : -3px;
+  left      : 0;
+  width     : 0;
+  height    : 1px;
+  background: var(--gold);
+  transition: width .4s var(--ease);
+}
+.nav-lks a:hover           { color: var(--char); }
+.nav-lks a:hover::after    { width: 100%; }
+
+.nav-ics { display: flex; align-items: center; gap: 10px; }
+
+.ni {
+  width        : 38px;
+  height       : 38px;
+  border-radius: 50%;
+  display      : flex;
+  align-items  : center;
+  justify-content: center;
+  background   : transparent;
+  border       : 1px solid transparent;
+  color        : var(--char);
+  cursor       : none;
+  transition   : all .3s var(--ease);
+}
+.ni:hover { background: var(--linen); border-color: var(--fog); }
+.ni svg   { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+
+.nav-gold-dot {
+  width     : 6px;
+  height    : 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation : pulse 2s infinite;
+}
+
+@media (max-width: 700px) {
+  .nav-lks     { display: none; }
+  #nav.sc      { width: calc(100% - 28px); }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 5  AMBIENT ORB BACKGROUNDS
+   ════════════════════════════════════════════════════════════════════ */
+.orb {
+  position      : fixed;
+  border-radius : 50%;
+  pointer-events: none;
+  z-index       : 0;
+  filter        : blur(80px);
+  opacity       : .18;
+  animation     : orbFloat 12s ease-in-out infinite;
+}
+.orb1 { width: 400px; height: 400px; background: radial-gradient(circle, var(--gold),    transparent); top: -100px;   right: -100px; animation-delay: 0s; }
+.orb2 { width: 300px; height: 300px; background: radial-gradient(circle, var(--sage),    transparent); bottom: 20%;   left: -80px;   animation-delay: 4s; }
+.orb3 { width: 250px; height: 250px; background: radial-gradient(circle, var(--emerald), transparent); top: 40%;      right: -60px;  animation-delay: 8s; }
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0,    0)     scale(1);    }
+  33%       { transform: translate(-20px, 30px) scale(1.05); }
+  66%       { transform: translate(15px, -20px) scale(.95);  }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 6  HERO SECTION
+   ════════════════════════════════════════════════════════════════════ */
+#hero {
+  min-height  : 100vh;
+  padding-top : var(--nav);
+  display     : grid;
+  grid-template-columns: 55fr 45fr;
+  overflow    : hidden;
+  position    : relative;
+}
+#hero::before {
+  content        : '';
+  position       : absolute;
+  inset          : 0;
+  background     :
+    radial-gradient(ellipse 50% 60% at  0%   0%, rgba(201,169,110,.06), transparent),
+    radial-gradient(ellipse 40% 40% at 100% 100%, rgba(143,166,139,.07), transparent);
+  pointer-events : none;
+  z-index        : 0;
+}
+
+/* Image mosaic column */
+.hero-m {
+  padding : 40px 20px 40px var(--gap);
+  height  : calc(100vh - var(--nav));
+  display : grid;
+  grid-template-columns: 1.3fr 1fr;
+  grid-template-rows   : 1.4fr 1fr;
+  gap     : 12px;
+  position: relative;
+  z-index : 1;
+}
+
+.hm {
+  border-radius: var(--r-img);
+  overflow     : hidden;
+  position     : relative;
+  box-shadow   : var(--sh-c);
+}
+.hm img { transition: transform 1.8s var(--ease); will-change: transform; }
+.hm:hover img { transform: scale(1.06); }
+
+.hm1 { grid-column: 1; grid-row: 1 / 3; }
+.hm2 { grid-column: 2; grid-row: 1; }
+.hm3 { grid-column: 2; grid-row: 2; }
+
+/* Gold shimmer overlay on image hover */
+.hm::after {
+  content    : '';
+  position   : absolute;
+  inset      : 0;
+  background : linear-gradient(135deg, rgba(201,169,110,0), rgba(201,169,110,.12), rgba(201,169,110,0));
+  opacity    : 0;
+  transition : opacity .6s;
+  pointer-events: none;
+}
+.hm:hover::after { opacity: 1; }
+
+.hm-tag {
+  position        : absolute;
+  bottom          : 14px;
+  left            : 14px;
+  background      : rgba(253,251,247,.92);
+  backdrop-filter : blur(8px);
+  border-radius   : var(--r-pill);
+  padding         : 6px 16px;
+  font-size       : .55rem;
+  font-weight     : 500;
+  letter-spacing  : .18em;
+  text-transform  : uppercase;
+  color           : var(--char);
+  box-shadow      : 0 2px 12px rgba(45,35,25,.1);
+}
+.hm-tag.g { background: rgba(201,169,110,.92); color: #fff; }
+.hm-tag.s { background: rgba( 94,122, 90,.92); color: #fff; }
+
+/* Floating info cards in hero */
+.hero-floater {
+  position        : absolute;
+  pointer-events  : none;
+  z-index         : 2;
+  background      : rgba(253,251,247,.92);
+  backdrop-filter : blur(10px);
+  border-radius   : var(--r-card);
+  padding         : 16px 20px;
+  box-shadow      : var(--sh-f);
+  border          : 1px solid rgba(201,169,110,.2);
+}
+.hf1 { bottom: 60px; left: calc(var(--gap) + 20px); animation: floaterBob 5s ease-in-out infinite; }
+.hf2 { top: 100px;   left: calc(55% - 60px);        animation: floaterBob 6s ease-in-out infinite; animation-delay: 2s; }
+
+.floater-label { font-size: .52rem;  letter-spacing: .2em;  text-transform: uppercase; color: var(--smoke); margin-bottom: 4px; }
+.floater-val   { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 400; color: var(--char); }
+.floater-badge {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 5px;
+  margin-top    : 6px;
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 4px 10px;
+  font-size     : .5rem;
+  font-weight   : 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.floater-dot {
+  width        : 5px;
+  height       : 5px;
+  border-radius: 50%;
+  background   : rgba(255,255,255,.7);
+  animation    : pulse 1.8s infinite;
+}
+
+@keyframes floaterBob {
+  0%, 100% { transform: translateY(0);   }
+  50%       { transform: translateY(-8px);}
+}
+
+/* Text column */
+.hero-txt {
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+  padding         : 0 var(--gap) 0 32px;
+  height          : calc(100vh - var(--nav));
+  position        : relative;
+  z-index         : 1;
+}
+
+.h-eye {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 12px;
+  font-size     : .58rem;
+  font-weight   : 400;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  margin-bottom : 28px;
+  opacity       : 0;
+  animation     : fadeUp .9s .4s var(--ease) forwards;
+}
+.h-dot {
+  width        : 5px;
+  height       : 5px;
+  border-radius: 50%;
+  background   : var(--gold);
+  flex-shrink  : 0;
+  animation    : pulse 2s infinite;
+}
+
+.h-hl {
+  font-family   : var(--font-serif);
+  font-size     : clamp(3rem, 6.5vw, 7rem);
+  font-weight   : 300;
+  line-height   : .92;
+  letter-spacing: -.02em;
+  color         : var(--char);
+  margin-bottom : 24px;
+  opacity       : 0;
+  animation     : fadeUp 1.1s .6s var(--ease) forwards;
+}
+.h-hl em {
+  font-style             : italic;
+  background             : linear-gradient(135deg, var(--gold), var(--emerald));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip        : text;
+}
+
+.h-sub {
+  font-size    : .82rem;
+  font-weight  : 300;
+  line-height  : 1.9;
+  color        : var(--smoke);
+  max-width    : 380px;
+  margin-bottom: 44px;
+  opacity      : 0;
+  animation    : fadeUp .9s .85s var(--ease) forwards;
+}
+
+.h-cta {
+  display    : flex;
+  align-items: center;
+  gap        : 16px;
+  opacity    : 0;
+  animation  : fadeUp .9s 1s var(--ease) forwards;
+  flex-wrap  : wrap;
+}
+
+/* Gold pill CTA */
+.btn-g {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 15px 34px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  border        : none;
+  cursor        : none;
+  transition    : all .4s var(--ease);
+  box-shadow    : 0 8px 24px rgba(201,169,110,.35);
+}
+.btn-g:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(201,169,110,.5); filter: brightness(1.05); }
+.btn-g svg   { width: 14px; height: 14px; stroke: #fff; fill: none; stroke-width: 2; }
+
+/* Ghost outline CTA */
+.btn-ghost {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  background    : transparent;
+  color         : var(--char);
+  border-radius : var(--r-pill);
+  padding       : 14px 28px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  border        : 1.5px solid var(--fog);
+  cursor        : none;
+  transition    : all .4s var(--ease);
+}
+.btn-ghost:hover { border-color: var(--sage-d); color: var(--sage-d); transform: translateY(-2px); }
+
+/* Scroll hint */
+.h-scroll {
+  position      : absolute;
+  bottom        : 32px;
+  left          : 50%;
+  transform     : translateX(-50%);
+  display       : flex;
+  flex-direction: column;
+  align-items   : center;
+  gap           : 8px;
+  font-size     : .5rem;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  animation     : floatScroll 3s ease-in-out infinite;
+}
+.h-scroll-l {
+  width     : 1px;
+  height    : 44px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+}
+@keyframes floatScroll {
+  0%, 100% { transform: translateX(-50%) translateY(0);   }
+  50%       { transform: translateX(-50%) translateY(-8px);}
+}
+
+@media (max-width: 900px) {
+  #hero                   { grid-template-columns: 1fr; min-height: auto; }
+  .hero-m                 { height: 65vw; min-height: 300px; padding: 16px var(--gap); }
+  .hero-txt               { height: auto; padding: 52px var(--gap); }
+  .hf1, .hf2, .h-scroll  { display: none; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 7  TICKER BAND
+   ════════════════════════════════════════════════════════════════════ */
+.ticker-wrap {
+  border-top   : 1px solid var(--fog);
+  border-bottom: 1px solid var(--fog);
+  background   : linear-gradient(90deg, var(--linen), rgba(201,169,110,.08), var(--linen));
+  padding      : 18px 0;
+  overflow     : hidden;
+}
+.ticker-inner {
+  display   : flex;
+  animation : ticker 25s linear infinite;
+  white-space: nowrap;
+}
+/* Two identical sets so the loop is seamless */
+.ticker-set { display: flex; flex-shrink: 0; }
+
+.ti {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 20px;
+  padding       : 0 36px;
+  font-family   : var(--font-serif);
+  font-size     : .9rem;
+  font-style    : italic;
+  color         : var(--smoke);
+  flex-shrink   : 0;
+}
+.ti-gem { color: var(--gold); font-size: .7rem; font-style: normal; }
+
+@keyframes ticker {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-50%); }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 8  PHILOSOPHY SECTION
+   ════════════════════════════════════════════════════════════════════ */
+#philo {
+  display              : grid;
+  grid-template-columns: 45fr 55fr;
+  min-height           : 85vh;
+  background           : var(--cream);
+  position             : relative;
+  overflow             : hidden;
+}
+#philo::before {
+  content        : '';
+  position       : absolute;
+  inset          : 0;
+  background     : radial-gradient(ellipse 60% 60% at 0% 50%, rgba(143,166,139,.06), transparent);
+  pointer-events : none;
+}
+
+/* Text column */
+.pt {
+  display         : flex;
+  flex-direction  : column;
+  justify-content : center;
+  padding         : var(--sp) 56px var(--sp) var(--gap);
+  position        : relative;
+  z-index         : 1;
+}
+
+.s-eye {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 14px;
+  font-size     : .58rem;
+  font-weight   : 400;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  margin-bottom : 28px;
+}
+.s-eye::before {
+  content   : '';
+  display   : block;
+  width     : 28px;
+  height    : 1px;
+  background: var(--gold);
+}
+
+.s-hl {
+  font-family   : var(--font-serif);
+  font-size     : clamp(2.4rem, 4.5vw, 4.8rem);
+  font-weight   : 300;
+  line-height   : 1;
+  letter-spacing: -.02em;
+  color         : var(--char);
+  margin-bottom : 28px;
+}
+.s-hl em { font-style: italic; color: var(--sage-d); }
+
+.s-body {
+  font-size    : .85rem;
+  font-weight  : 300;
+  line-height  : 1.9;
+  color        : var(--smoke);
+  max-width    : 420px;
+  margin-bottom: 36px;
+}
+
+.lnk-arrow {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color         : var(--char);
+  cursor        : none;
+  transition    : gap .3s var(--ease);
+}
+.lnk-arrow svg              { width: 16px; height: 16px; stroke: var(--gold); fill: none; stroke-width: 1.6; transition: transform .3s var(--ease); }
+.lnk-arrow:hover            { gap: 16px; }
+.lnk-arrow:hover svg        { transform: translateX(4px); }
+
+.philo-stats {
+  display       : flex;
+  gap           : 44px;
+  margin-top    : 56px;
+  padding-top   : 44px;
+  border-top    : 1px solid var(--fog);
+}
+.ps-n {
+  font-family            : var(--font-serif);
+  font-size              : 2.8rem;
+  font-weight            : 300;
+  line-height            : 1;
+  background             : linear-gradient(135deg, var(--gold), var(--gold-d));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip        : text;
+}
+.ps-l {
+  font-size     : .58rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  margin-top    : 6px;
+}
+
+/* Image column */
+.pi         { position: relative; overflow: hidden; }
+.pi-inner   { width: 100%; height: 100%; min-height: 580px; position: relative; }
+.pi-inner img { transition: transform 2s var(--ease); }
+.pi-inner:hover img { transform: scale(1.04); }
+
+/* Decorative gold frame overlay */
+.pi-frame {
+  position      : absolute;
+  top           : 24px;
+  right         : 24px;
+  bottom        : 24px;
+  left          : 24px;
+  border        : 1px solid rgba(201,169,110,.25);
+  border-radius : var(--r-img);
+  pointer-events: none;
+}
+
+.pi-card {
+  position     : absolute;
+  bottom       : 48px;
+  left         : -24px;
+  background   : var(--cream);
+  border-radius: var(--r-card);
+  padding      : 22px 26px;
+  box-shadow   : var(--sh-f);
+  min-width    : 190px;
+  border       : 1px solid rgba(201,169,110,.2);
+}
+.pi-cl    { font-size: .54rem; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; color: var(--smoke); margin-bottom: 6px; }
+.pi-cv    { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 400; color: var(--char); }
+.pi-badge {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 5px;
+  background    : linear-gradient(135deg, var(--sage-d), var(--emerald));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 4px 10px;
+  margin-top    : 7px;
+  font-size     : .5rem;
+  font-weight   : 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.pi-dot {
+  width        : 5px;
+  height       : 5px;
+  border-radius: 50%;
+  background   : rgba(255,255,255,.7);
+  animation    : pulse 1.8s infinite;
+}
+
+@media (max-width: 900px) {
+  #philo              { grid-template-columns: 1fr; }
+  .pt                 { padding: var(--sp) var(--gap); }
+  .pi-inner           { min-height: 380px; }
+  .pi-card            { left: 16px; }
+  .philo-stats        { gap: 28px; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 9  ICON PIECE (Special Item)
+   ════════════════════════════════════════════════════════════════════ */
+#special {
+  padding : var(--sp) var(--gap);
+  background: var(--dark3);
+  position: relative;
+  overflow: hidden;
+}
+/* Ambient green & gold glow */
+#special::before {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  background    :
+    radial-gradient(ellipse 70% 60% at 20% 50%, rgba( 46,125, 82,.18), transparent),
+    radial-gradient(ellipse 50% 50% at 85% 30%, rgba(201,169,110,.12), transparent);
+  pointer-events: none;
+}
+
+.spec-wrap {
+  display              : grid;
+  grid-template-columns: 1fr 1fr;
+  gap                  : 80px;
+  align-items          : center;
+  position             : relative;
+  z-index              : 1;
+}
+
+.spec-img-col  { position: relative; }
+
+.spec-img-main {
+  border-radius: 24px;
+  overflow     : hidden;
+  aspect-ratio : 3 / 4;
+  max-width    : 460px;
+  box-shadow   : 0 32px 80px rgba(0,0,0,.5), 0 0 60px rgba(201,169,110,.12);
+  position     : relative;
+}
+.spec-img-main::after {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  background    : linear-gradient(135deg, transparent 60%, rgba(201,169,110,.15));
+  pointer-events: none;
+}
+
+.spec-img-badge {
+  position      : absolute;
+  top           : 24px;
+  left          : 24px;
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 8px 20px;
+  font-size     : .56rem;
+  font-weight   : 500;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  box-shadow    : 0 8px 24px rgba(201,169,110,.4);
+}
+
+.spec-img-sub {
+  position     : absolute;
+  bottom       : -24px;
+  right        : -20px;
+  width        : 150px;
+  height       : 150px;
+  border-radius: 20px;
+  overflow     : hidden;
+  box-shadow   : var(--sh-f);
+  border       : 3px solid var(--dark3);
+}
+
+/* Rotating gold ring decoration */
+.spec-ring {
+  position     : absolute;
+  top          : -30px;
+  right        : 40px;
+  width        : 120px;
+  height       : 120px;
+  border-radius: 50%;
+  border       : 1px solid rgba(201,169,110,.2);
+  animation    : spinSlow 20s linear infinite;
+}
+.spec-ring::before {
+  content      : '';
+  position     : absolute;
+  top          : -4px;
+  left         : 50%;
+  width        : 8px;
+  height       : 8px;
+  background   : var(--gold);
+  border-radius: 50%;
+  transform    : translateX(-50%);
+}
+
+/* Text column */
+.spec-txt { position: relative; z-index: 1; }
+
+.spec-eye {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 12px;
+  font-size     : .58rem;
+  font-weight   : 400;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color         : var(--gold);
+  margin-bottom : 20px;
+}
+.spec-eye-line { width: 32px; height: 1px; background: var(--gold); }
+
+.spec-hl {
+  font-family   : var(--font-serif);
+  font-size     : clamp(2.2rem, 4.5vw, 4.6rem);
+  font-weight   : 300;
+  line-height   : 1;
+  letter-spacing: -.02em;
+  color         : rgba(253,251,247,.95);
+  margin-bottom : 24px;
+}
+.spec-hl em {
+  font-style             : italic;
+  background             : linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip        : text;
+}
+
+.spec-desc {
+  font-size    : .85rem;
+  font-weight  : 300;
+  line-height  : 1.95;
+  color        : rgba(253,251,247,.5);
+  max-width    : 400px;
+  margin-bottom: 16px;
+}
+
+.spec-material { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+
+.spec-chip {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 7px;
+  background    : rgba(253,251,247,.06);
+  border        : 1px solid rgba(253,251,247,.1);
+  border-radius : var(--r-pill);
+  padding       : 8px 16px;
+  font-size     : .56rem;
+  font-weight   : 400;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color         : rgba(253,251,247,.6);
+}
+.spec-chip-dot { width: 6px; height: 6px; border-radius: 50%; }
+
+.spec-price-row { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; }
+.spec-price     { font-family: var(--font-serif); font-size: 2.6rem; font-weight: 300; color: var(--gold-lt); }
+.spec-price-lbl { font-size: .58rem; letter-spacing: .2em; text-transform: uppercase; color: rgba(253,251,247,.35); }
+
+.spec-cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-spec {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 16px 36px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  border        : none;
+  cursor        : none;
+  transition    : all .4s var(--ease);
+  box-shadow    : 0 10px 30px rgba(201,169,110,.35);
+}
+.btn-spec:hover { transform: translateY(-2px); box-shadow: 0 16px 44px rgba(201,169,110,.5); }
+
+.btn-spec-ghost {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  background    : transparent;
+  color         : rgba(253,251,247,.7);
+  border-radius : var(--r-pill);
+  padding       : 15px 28px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  border        : 1.5px solid rgba(253,251,247,.15);
+  cursor        : none;
+  transition    : all .4s var(--ease);
+}
+.btn-spec-ghost:hover { border-color: rgba(253,251,247,.4); color: rgba(253,251,247,.95); }
+
+/* Sparkle decorations */
+.spec-sparkle {
+  position      : absolute;
+  pointer-events: none;
+  color         : var(--gold);
+  font-size     : 1rem;
+  animation     : sparkle 3s ease-in-out infinite;
+}
+.ss1 { top: 5%;    right: 5%; animation-delay: 0s; }
+.ss2 { top: 50%;   right: 2%; animation-delay: 1s; }
+.ss3 { bottom: 10%;left: 3%;  animation-delay: 2s; }
+
+@keyframes sparkle {
+  0%, 100% { opacity: .3; transform: scale(.8)  rotate(  0deg); }
+  50%       { opacity: 1;  transform: scale(1.2) rotate( 20deg); }
+}
+@keyframes spinSlow {
+  from { transform: rotate(  0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@media (max-width: 900px) {
+  .spec-wrap                      { grid-template-columns: 1fr; gap: 48px; }
+  .spec-img-sub, .spec-ring       { display: none; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 10  COLLECTION GRID
+   ════════════════════════════════════════════════════════════════════ */
+#coll {
+  padding   : var(--sp) var(--gap);
+  background: var(--linen);
+  position  : relative;
+  overflow  : hidden;
+}
+#coll::before {
+  content       : '';
+  position      : absolute;
+  top           : 0; left: 0; right: 0;
+  height        : 400px;
+  background    : linear-gradient(to bottom, rgba(201,169,110,.04), transparent);
+  pointer-events: none;
+}
+
+.coll-hdr {
+  display        : flex;
+  align-items    : flex-end;
+  justify-content: space-between;
+  margin-bottom  : 52px;
+  gap            : 24px;
+  flex-wrap      : wrap;
+}
+.coll-ttl {
+  font-family: var(--font-serif);
+  font-size  : clamp(2rem, 4vw, 3.8rem);
+  font-weight: 300;
+  line-height: 1;
+  color      : var(--char);
+}
+.coll-ttl em { font-style: italic; color: var(--sage-d); }
+
+/* Filter pills */
+.fps { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.fp {
+  font-size     : .58rem;
+  font-weight   : 400;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  cursor        : none;
+  padding       : 9px 20px;
+  border-radius : var(--r-pill);
+  border        : 1px solid var(--fog);
+  background    : transparent;
+  color         : var(--smoke);
+  transition    : all .3s var(--ease);
+  font-family   : var(--font-sans);
+}
+.fp:hover, .fp.act {
+  background  : var(--char);
+  color       : var(--cream);
+  border-color: var(--char);
+}
+
+/* Masonry grid */
+.mg {
+  columns   : 3 260px;
+  column-gap: 18px;
+}
+
+/* Product card */
+.pc {
+  break-inside : avoid;
+  margin-bottom: 18px;
+  border-radius: var(--r-card);
+  background   : var(--cream);
+  box-shadow   : var(--sh-c);
+  overflow     : hidden;
+  cursor       : none;
+  transition   : transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.pc:hover { transform: translateY(-6px); box-shadow: var(--sh-h); }
+
+/* Alternating aspect ratios for a natural masonry feel */
+.pc:nth-child(3n+1) .piw { aspect-ratio: 3 / 4; }
+.pc:nth-child(3n+2) .piw { aspect-ratio: 4 / 5; }
+.pc:nth-child(3n+3) .piw { aspect-ratio: 1 / 1; }
+
+/* Product image wrapper */
+.piw { position: relative; overflow: hidden; background: var(--fog); }
+.piw img { transition: transform 1.3s var(--ease); }
+.pc:hover .piw img { transform: scale(1.08); }
+
+/* Gold sheen hover overlay */
+.piw::after {
+  content   : '';
+  position  : absolute;
+  inset     : 0;
+  background: linear-gradient(45deg, transparent, rgba(201,169,110,.1), transparent);
+  opacity   : 0;
+  transition: opacity .6s;
+}
+.pc:hover .piw::after { opacity: 1; }
+
+/* Quick-view overlay */
+.p-ov {
+  position  : absolute;
+  inset     : 0;
+  background: rgba(26,23,20,.22);
+  opacity   : 0;
+  display   : flex;
+  align-items: flex-end;
+  padding   : 18px;
+  transition: opacity .4s;
+}
+.pc:hover .p-ov { opacity: 1; }
+
+.p-ov-btn {
+  background      : rgba(253,251,247,.95);
+  backdrop-filter : blur(6px);
+  border-radius   : var(--r-pill);
+  padding         : 10px 22px;
+  font-size       : .56rem;
+  font-weight     : 500;
+  letter-spacing  : .15em;
+  text-transform  : uppercase;
+  color           : var(--char);
+  transform       : translateY(8px);
+  transition      : transform .4s .05s var(--spring);
+  border          : none;
+  cursor          : none;
+  width           : 100%;
+  text-align      : center;
+  font-family     : var(--font-sans);
+}
+.pc:hover .p-ov-btn { transform: translateY(0); }
+
+/* Category badge */
+.p-badge {
+  position      : absolute;
+  top           : 14px;
+  right         : 14px;
+  border-radius : var(--r-pill);
+  padding       : 5px 12px;
+  font-size     : .52rem;
+  font-weight   : 500;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.p-badge.g { background: linear-gradient(135deg, var(--gold), var(--gold-d)); color: #fff; }
+.p-badge.s { background: var(--sage-d); color: #fff; }
+
+/* Product info row */
+.p-info { padding: 18px 20px 22px; }
+.p-type { font-size: .56rem; font-weight: 400; letter-spacing: .18em; text-transform: uppercase; color: var(--smoke); margin-bottom: 3px; }
+.p-pr   { display: flex; align-items: center; justify-content: space-between; }
+.p-nm   { font-family: var(--font-serif); font-size: 1.2rem; font-weight: 400; color: var(--char); }
+.p-prc  { font-size: .76rem; font-weight: 400; color: var(--char); }
+
+.p-hrt {
+  width        : 30px;
+  height       : 30px;
+  border-radius: 50%;
+  border       : 1px solid var(--fog);
+  background   : transparent;
+  display      : flex;
+  align-items  : center;
+  justify-content: center;
+  cursor       : none;
+  transition   : all .3s var(--spring);
+  color        : var(--smoke);
+}
+.p-hrt:hover { background: #fde8e8; border-color: #f4b8b8; color: #d97b7b; transform: scale(1.14); }
+.p-hrt svg   { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 11  EXPERIENCE / PROCESS STEPS
+   ════════════════════════════════════════════════════════════════════ */
+#xp {
+  padding   : var(--sp) var(--gap);
+  background: var(--cream);
+  position  : relative;
+  overflow  : hidden;
+}
+#xp::after {
+  content   : '';
+  position  : absolute;
+  bottom    : 0; left: 0; right: 0;
+  height    : 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.xp-head { text-align: center; margin-bottom: 72px; }
+
+.xp-grid {
+  display              : grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap                  : 32px;
+}
+
+.xp-step {
+  background   : var(--linen);
+  border-radius: var(--r-card);
+  padding      : 40px 32px;
+  border       : 1px solid var(--fog);
+  position     : relative;
+  overflow     : hidden;
+  transition   : transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.xp-step:hover { transform: translateY(-5px); box-shadow: var(--sh-h); }
+.xp-step::before {
+  content   : '';
+  position  : absolute;
+  top       : 0; left: 0; right: 0;
+  height    : 3px;
+  background: linear-gradient(90deg, var(--gold), var(--sage-d));
+}
+
+.xp-num {
+  font-family  : var(--font-serif);
+  font-size    : 4rem;
+  font-weight  : 300;
+  line-height  : 1;
+  color        : rgba(201,169,110,.2);
+  margin-bottom: 16px;
+}
+.xp-icon {
+  width          : 48px;
+  height         : 48px;
+  border-radius  : 14px;
+  background     : linear-gradient(135deg, rgba(201,169,110,.12), rgba(201,169,110,.06));
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  margin-bottom  : 20px;
+  border         : 1px solid rgba(201,169,110,.2);
+}
+.xp-icon svg { width: 22px; height: 22px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+.xp-ttl      { font-family: var(--font-serif); font-size: 1.35rem; font-weight: 400; color: var(--char); margin-bottom: 10px; }
+.xp-txt      { font-size: .8rem; font-weight: 300; line-height: 1.85; color: var(--smoke); }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 12  QURANIC AYAH SECTION
+   ════════════════════════════════════════════════════════════════════ */
+#ayah {
+  background: var(--dark);
+  padding   : 110px var(--gap);
+  text-align: center;
+  position  : relative;
+  overflow  : hidden;
+}
+#ayah::before {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  background    : radial-gradient(ellipse 60% 50% at 50% 50%, rgba(143,166,139,.07), transparent);
+  pointer-events: none;
+}
+
+/* Animated gold particles */
+.ayah-particle {
+  position  : absolute;
+  width     : 2px;
+  height    : 2px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation : particleDrift linear infinite;
+  opacity   : 0;
+}
+@keyframes particleDrift {
+  0%   { transform: translateY(100vh) translateX( 0);   opacity: 0;  }
+  10%  {                                                 opacity: .6; }
+  90%  {                                                 opacity: .3; }
+  100% { transform: translateY(-100px) translateX(30px); opacity: 0;  }
+}
+
+.ay-orn {
+  display       : block;
+  text-align    : center;
+  font-size     : 1rem;
+  color         : rgba(201,169,110,.4);
+  margin-bottom : 36px;
+  letter-spacing: .8em;
+}
+
+#ay-ar {
+  font-family  : var(--font-serif);
+  font-size    : clamp(1.8rem, 4vw, 3.2rem);
+  font-weight  : 300;
+  line-height  : 1.9;
+  color        : rgba(253,251,247,.9);
+  direction    : rtl;
+  margin-bottom: 32px;
+}
+#ay-tr  { font-size: .7rem;  font-weight: 300; letter-spacing: .28em; text-transform: uppercase; line-height: 2.2; color: rgba(253,251,247,.42); max-width: 540px; margin: 0 auto 20px; }
+#ay-ref { font-size: .58rem; font-weight: 400; letter-spacing: .3em;  text-transform: uppercase; color: var(--sage-lt); display: block; }
+
+.ay-line {
+  width     : 1px;
+  height    : 52px;
+  background: linear-gradient(to bottom, transparent, rgba(201,169,110,.3), transparent);
+  margin    : 32px auto;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 13  TESTIMONIALS
+   ════════════════════════════════════════════════════════════════════ */
+#reviews {
+  padding   : var(--sp) var(--gap);
+  background: var(--cream);
+  position  : relative;
+  overflow  : hidden;
+}
+#reviews::before {
+  content       : '';
+  position      : absolute;
+  bottom        : 0; left: 0; right: 0;
+  height        : 300px;
+  background    : linear-gradient(to top, rgba(201,169,110,.04), transparent);
+  pointer-events: none;
+}
+
+.rv-hdr  { text-align: center; margin-bottom: 60px; }
+.rv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
+
+.rv-card {
+  background   : var(--linen);
+  border-radius: var(--r-card);
+  padding      : 36px 32px;
+  display      : flex;
+  flex-direction: column;
+  gap          : 18px;
+  border       : 1px solid var(--fog);
+  transition   : transform .4s var(--ease), box-shadow .4s;
+  position     : relative;
+  overflow     : hidden;
+}
+.rv-card::before {
+  content   : '';
+  position  : absolute;
+  top       : 0; left: 0; right: 0;
+  height    : 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  opacity   : 0;
+  transition: opacity .4s;
+}
+.rv-card:hover          { transform: translateY(-4px); box-shadow: var(--sh-h); }
+.rv-card:hover::before  { opacity: 1; }
+
+.rv-stars { display: flex; gap: 3px; color: var(--gold); font-size: .78rem; letter-spacing: 2px; }
+.rv-txt   { font-family: var(--font-serif); font-size: 1.02rem; font-weight: 300; font-style: italic; line-height: 1.65; color: var(--char); flex: 1; }
+.rv-row   { display: flex; align-items: center; gap: 12px; padding-top: 18px; border-top: 1px solid var(--fog); }
+.rv-av    { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--blush), var(--fog)); display: flex; align-items: center; justify-content: center; font-family: var(--font-serif); font-size: .9rem; color: var(--char); flex-shrink: 0; }
+.rv-nm    { font-size: .6rem;  font-weight: 500; letter-spacing: .1em;  text-transform: uppercase; color: var(--char);  margin-bottom: 2px; }
+.rv-loc   { font-size: .56rem; font-weight: 300; letter-spacing: .1em;  color: var(--smoke); }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 14  BESPOKE COMMISSION BANNER
+   ════════════════════════════════════════════════════════════════════ */
+#bespoke {
+  margin       : 0 var(--gap) var(--sp);
+  background   : linear-gradient(135deg, var(--dark2), var(--dark3));
+  border-radius: 28px;
+  padding      : clamp(56px, 8vw, 100px) clamp(40px, 8vw, 120px);
+  text-align   : center;
+  position     : relative;
+  overflow     : hidden;
+  border       : 1px solid rgba(201,169,110,.12);
+}
+#bespoke::before {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  background    :
+    radial-gradient(ellipse 60% 60% at 50%   0%, rgba(201,169,110,.08), transparent),
+    radial-gradient(ellipse 40% 40% at 20% 100%, rgba( 46,125, 82,.07), transparent);
+  pointer-events: none;
+}
+/* Animated conic border glow */
+#bespoke::after {
+  content       : '';
+  position      : absolute;
+  inset         : 0;
+  border-radius : 28px;
+  background    : conic-gradient(from 0deg, transparent, rgba(201,169,110,.15), transparent, rgba(143,166,139,.1), transparent);
+  animation     : borderSpin 6s linear infinite;
+  pointer-events: none;
+}
+@keyframes borderSpin {
+  from { transform: rotate(  0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.bs-eye { font-size: .58rem; font-weight: 400; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; display: block; position: relative; z-index: 1; }
+
+.bs-hl {
+  font-family  : var(--font-serif);
+  font-size    : clamp(2rem, 4.5vw, 4.2rem);
+  font-weight  : 300;
+  line-height  : 1.1;
+  color        : rgba(253,251,247,.95);
+  margin-bottom: 16px;
+  position     : relative;
+  z-index      : 1;
+}
+.bs-hl em {
+  font-style             : italic;
+  background             : linear-gradient(135deg, var(--gold-lt), var(--gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip        : text;
+}
+
+.bs-sub {
+  font-size    : .82rem;
+  font-weight  : 300;
+  line-height  : 1.8;
+  color        : rgba(253,251,247,.45);
+  max-width    : 440px;
+  margin       : 0 auto 40px;
+  position     : relative;
+  z-index      : 1;
+}
+
+.btn-bs {
+  display       : inline-flex;
+  align-items   : center;
+  gap           : 10px;
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border-radius : var(--r-pill);
+  padding       : 16px 40px;
+  font-size     : .62rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  border        : none;
+  cursor        : none;
+  transition    : all .4s var(--ease);
+  box-shadow    : 0 10px 32px rgba(201,169,110,.4);
+  position      : relative;
+  z-index       : 1;
+  font-family   : var(--font-sans);
+}
+.btn-bs:hover { transform: translateY(-2px); box-shadow: 0 18px 48px rgba(201,169,110,.55); }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 15  NEWSLETTER
+   ════════════════════════════════════════════════════════════════════ */
+#nl {
+  margin       : 0 var(--gap) var(--sp);
+  background   : var(--linen);
+  border-radius: 28px;
+  padding      : clamp(56px, 8vw, 100px) clamp(40px, 8vw, 120px);
+  text-align   : center;
+  border       : 1px solid var(--fog);
+  position     : relative;
+  overflow     : hidden;
+}
+#nl::before {
+  content       : '';
+  position      : absolute;
+  inset         : -40%;
+  background    :
+    radial-gradient(ellipse 40% 30% at 80%  20%, rgba(143,166,139,.10), transparent),
+    radial-gradient(ellipse 40% 40% at 20%  80%, rgba(201,169,110,.08), transparent);
+  pointer-events: none;
+}
+
+.nl-eye { font-size: .58rem; font-weight: 400; letter-spacing: .3em; text-transform: uppercase; color: var(--smoke); margin-bottom: 20px; display: block; }
+
+.nl-hl {
+  font-family  : var(--font-serif);
+  font-size    : clamp(2rem, 4.5vw, 4rem);
+  font-weight  : 300;
+  line-height  : 1.1;
+  color        : var(--char);
+  margin-bottom: 14px;
+}
+.nl-hl em { font-style: italic; color: var(--sage-d); }
+
+.nl-sub { font-size: .82rem; font-weight: 300; line-height: 1.7; color: var(--smoke); max-width: 400px; margin: 0 auto 38px; }
+
+.nl-form {
+  display     : flex;
+  gap         : 8px;
+  max-width   : 440px;
+  margin      : 0 auto;
+  background  : rgba(253,251,247,.9);
+  border      : 1px solid var(--fog);
+  border-radius: var(--r-pill);
+  padding     : 5px 5px 5px 22px;
+  box-shadow  : var(--sh-c);
+}
+.nl-inp {
+  flex       : 1;
+  background : transparent;
+  border     : none;
+  outline    : none;
+  font-family: var(--font-sans);
+  font-size  : .82rem;
+  font-weight: 300;
+  color      : var(--char);
+}
+.nl-inp::placeholder { color: var(--smoke); }
+
+.nl-btn {
+  background    : linear-gradient(135deg, var(--gold), var(--gold-d));
+  color         : #fff;
+  border        : none;
+  border-radius : 50px;
+  cursor        : none;
+  padding       : 12px 24px;
+  font-family   : var(--font-sans);
+  font-size     : .6rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  transition    : all .35s var(--ease);
+  white-space   : nowrap;
+}
+.nl-btn:hover { box-shadow: 0 8px 24px rgba(201,169,110,.45); transform: scale(1.03); }
+
+.nl-trust {
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  gap            : 20px;
+  margin-top     : 24px;
+  flex-wrap      : wrap;
+}
+.nl-t {
+  font-size     : .55rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color         : var(--smoke);
+  display       : flex;
+  align-items   : center;
+  gap           : 6px;
+}
+.nl-t svg { width: 12px; height: 12px; stroke: var(--sage-d); fill: none; stroke-width: 2; }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 16  FOOTER
+   ════════════════════════════════════════════════════════════════════ */
+#footer {
+  background: var(--dark3);
+  color     : rgba(253,251,247,.8);
+  padding   : var(--sp) var(--gap) 0;
+  position  : relative;
+  overflow  : hidden;
+}
+#footer::before {
+  content   : '';
+  position  : absolute;
+  top       : 0; left: 0; right: 0;
+  height    : 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity   : .3;
+}
+
+.ft-grid {
+  display              : grid;
+  grid-template-columns: 1.8fr 1fr 1fr 1fr;
+  gap                  : 56px;
+  padding-bottom       : 72px;
+  border-bottom        : 1px solid rgba(253,251,247,.06);
+}
+
+.ft-logo { font-family: var(--font-serif); font-size: 1.8rem; font-weight: 400; letter-spacing: .2em; text-transform: uppercase; color: rgba(253,251,247,.9); margin-bottom: 16px; }
+.ft-tag  { font-size: .78rem; font-weight: 300; line-height: 1.8; color: rgba(253,251,247,.4); max-width: 270px; margin-bottom: 28px; }
+
+.ft-soc { display: flex; gap: 8px; }
+.ft-sb {
+  width         : 36px;
+  height        : 36px;
+  border-radius : 50%;
+  border        : 1px solid rgba(253,251,247,.1);
+  background    : transparent;
+  display       : flex;
+  align-items   : center;
+  justify-content: center;
+  transition    : all .35s var(--ease);
+  cursor        : none;
+  color         : rgba(253,251,247,.45);
+}
+.ft-sb:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+.ft-sb svg   { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 1.6; }
+
+.ft-ct  { font-size: .55rem; font-weight: 500; letter-spacing: .3em; text-transform: uppercase; color: rgba(253,251,247,.28); margin-bottom: 22px; }
+
+.ft-lks { display: flex; flex-direction: column; gap: 12px; }
+.ft-lks a, .pol-btn {
+  font-size  : .78rem;
+  font-weight: 300;
+  color      : rgba(253,251,247,.55);
+  transition : color .3s;
+  background : none;
+  border     : none;
+  cursor     : none;
+  text-align : left;
+  padding    : 0;
+  font-family: var(--font-sans);
+}
+.ft-lks a:hover, .pol-btn:hover { color: rgba(253,251,247,.9); }
+
+.ft-wm  { font-family: var(--font-serif); font-size: min(22vw, 250px); font-weight: 400; line-height: .75; text-align: center; color: rgba(253,251,247,.025); user-select: none; pointer-events: none; margin-top: -4vw; }
+
+.ft-bot {
+  display        : flex;
+  justify-content: space-between;
+  align-items    : center;
+  padding        : 22px 0 30px;
+  position       : relative;
+  z-index        : 2;
+}
+.ft-bot p           { font-size: .58rem; letter-spacing: .12em; color: rgba(253,251,247,.28); }
+.ft-bot a           { color: rgba(253,251,247,.45); transition: color .3s; }
+.ft-bot a:hover     { color: rgba(253,251,247,.9); }
+
+@media (max-width: 900px) {
+  .ft-grid  { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .ft-bot   { flex-direction: column; gap: 10px; text-align: center; }
+}
+@media (max-width: 560px) {
+  .ft-grid  { grid-template-columns: 1fr; }
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 17  FLOATING ELEMENTS
+   ════════════════════════════════════════════════════════════════════ */
+/* WhatsApp button */
+#wa-f {
+  position     : fixed;
+  bottom       : 26px;
+  left         : 26px;
+  z-index      : 8888;
+  width        : 52px;
+  height       : 52px;
+  border-radius: 50%;
+  background   : var(--cream);
+  border       : 1px solid var(--fog);
+  box-shadow   : var(--sh-f);
+  display      : flex;
+  align-items  : center;
+  justify-content: center;
+  color        : var(--char);
+  cursor       : none;
+  transition   : all .4s var(--spring);
+}
+#wa-f:hover { background: #25D366; color: #fff; border-color: #25D366; transform: translateY(-4px) scale(1.08); box-shadow: 0 14px 36px rgba(37,211,102,.35); }
+#wa-f svg   { width: 22px; height: 22px; fill: currentColor; }
+
+/* "Join the Club" sticky pill */
+#spill {
+  position      : fixed;
+  bottom        : 26px;
+  left          : 50%;
+  transform     : translateX(-50%) translateY(90px);
+  z-index       : 8800;
+  background    : linear-gradient(135deg, var(--dark2), var(--dark3));
+  color         : rgba(253,251,247,.9);
+  border-radius : var(--r-pill);
+  padding       : 13px 30px;
+  font-size     : .6rem;
+  font-weight   : 400;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  box-shadow    : 0 12px 40px rgba(45,35,25,.3), 0 0 0 1px rgba(201,169,110,.15);
+  display       : flex;
+  align-items   : center;
+  gap           : 12px;
+  transition    : transform .6s var(--spring);
+  cursor        : none;
+  border        : none;
+  font-family   : var(--font-sans);
+}
+#spill.vis { transform: translateX(-50%) translateY(0); }
+
+/* Dismiss X sits OUTSIDE #spill, positioned to appear overlaid */
+#spill-close {
+  position       : fixed;
+  bottom         : 36px;
+  /* calculated so it sits at the right edge of the pill */
+  left           : calc(50% + 100px);
+  z-index        : 8801;
+  width          : 18px;
+  height         : 18px;
+  border-radius  : 50%;
+  background     : rgba(45,35,25,.6);
+  border         : none;
+  cursor         : none;
+  color          : rgba(253,251,247,.7);
+  font-size      : 10px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  opacity        : 0;
+  transition     : background .2s, opacity .4s;
+  font-family    : var(--font-sans);
+}
+#spill.vis + #spill-close { opacity: 1; }
+#spill-close:hover { background: rgba(45,35,25,.85); }
+
+.spill-dot {
+  width        : 7px;
+  height       : 7px;
+  border-radius: 50%;
+  background   : var(--gold);
+  animation    : pulse 2s infinite;
+  flex-shrink  : 0;
+}
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 18  POLICY MODAL
+   ════════════════════════════════════════════════════════════════════ */
+#modal {
+  position      : fixed;
+  inset         : 0;
+  z-index       : 99000;
+  display       : flex;
+  align-items   : center;
+  justify-content: center;
+  padding       : 20px;
+  visibility    : hidden;
+  pointer-events: none;
+}
+#m-back {
+  position      : absolute;
+  inset         : 0;
+  background    : rgba(15,13,11,.75);
+  backdrop-filter: blur(14px);
+  opacity       : 0;
+  transition    : opacity .5s;
+}
+#m-box {
+  position     : relative;
+  z-index      : 2;
+  background   : var(--cream);
+  border-radius: var(--r-card);
+  max-width    : 500px;
+  width        : 100%;
+  padding      : 52px;
+  transform    : translateY(22px) scale(.98);
+  opacity      : 0;
+  transition   : all .5s var(--ease);
+  box-shadow   : var(--sh-h);
+}
+
+#modal.op               { visibility: visible; pointer-events: auto; }
+#modal.op #m-back       { opacity: 1; }
+#modal.op #m-box        { transform: none; opacity: 1; }
+
+#m-close {
+  position     : absolute;
+  top          : 18px;
+  right        : 18px;
+  width        : 34px;
+  height       : 34px;
+  border-radius: 50%;
+  border       : 1px solid var(--fog);
+  background   : transparent;
+  display      : flex;
+  align-items  : center;
+  justify-content: center;
+  cursor       : none;
+  color        : var(--smoke);
+  font-size    : 11px;
+  transition   : all .3s;
+  font-family  : var(--font-sans);
+}
+#m-close:hover { background: var(--char); color: var(--cream); border-color: var(--char); }
+
+#m-ttl  { font-family: var(--font-serif); font-size: 2rem; font-weight: 300; color: var(--char); margin-bottom: 18px; }
+#m-body { font-size: .82rem; font-weight: 300; line-height: 1.85; color: var(--smoke); }
+
+
+/* ════════════════════════════════════════════════════════════════════
+   § 19  SHARED ANIMATIONS
+   ════════════════════════════════════════════════════════════════════ */
+.rev    { opacity: 0; transform: translateY(30px); transition: opacity .85s var(--ease), transform .85s var(--ease); }
+.rev.in { opacity: 1; transform: none; }
+
+.d1 { transition-delay: .1s; }
+.d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; }
+.d4 { transition-delay: .4s; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none;             }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1;   transform: scale(1);   }
+  50%       { opacity: .55; transform: scale(.82); }
+}
+
+  </style>
+
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+  LOADING SCREEN
+  ════════════════════════════════════════════════════════ -->
+<div id="loader" role="status" aria-label="Loading">
+  <span class="loader-leaf" aria-hidden="true">🌿</span>
+  <span class="loader-leaf" aria-hidden="true">🌿</span>
+  <span class="loader-leaf" aria-hidden="true">🌿</span>
+  <span class="loader-leaf" aria-hidden="true">🌿</span>
+  <div class="loader-logo">Ashé</div>
+  <div class="loader-bar-wrap">
+    <div class="loader-bar" id="lbar"></div>
+  </div>
+  <div class="loader-txt">Curating luxury…</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  AMBIENT BACKGROUND ORBS
+  ════════════════════════════════════════════════════════ -->
+<div class="orb orb1" aria-hidden="true"></div>
+<div class="orb orb2" aria-hidden="true"></div>
+<div class="orb orb3" aria-hidden="true"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  CUSTOM CURSOR
+  ════════════════════════════════════════════════════════ -->
+<div id="cur-dot"  aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  NAVIGATION
+  ════════════════════════════════════════════════════════ -->
+<nav id="nav" role="navigation" aria-label="Main navigation">
+
+  <div class="nav-lks">
+    <a href="#coll">Collection</a>
+    <a href="#philo">Atelier</a>
+    <a href="#special">Icon Piece</a>
+  </div>
+
+  <a href="#" class="nav-logo" aria-label="The Ashé Club — Home">Ashé</a>
+
+  <div class="nav-ics">
+    <div class="nav-gold-dot" aria-hidden="true"></div>
+    <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="ni" aria-label="Contact us on WhatsApp">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </a>
+    <button class="ni" aria-label="View cart">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    </button>
+  </div>
+
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  HERO
+  ════════════════════════════════════════════════════════ -->
+<section id="hero" aria-label="Hero showcase">
+
+  <!-- Image mosaic -->
+  <div class="hero-m">
+    <div class="hm hm1">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBqsEnBbqzHjPnxtizrLJ0s0uIy4fvPQ_6ppEMFAC1Rzz7iyocsM_lTlSN&s=10" alt="Editorial model wearing Ashé jewellery" />
+      <span class="hm-tag s">New Season</span>
+    </div>
+    <div class="hm hm2">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzLjKXecxjj2xc0oYekiC1y9prUyWn-NBASk5jDE_70_ppeGhnVIMjKyo&s=10" alt="Silver chain close-up" />
+      <span class="hm-tag g">Silver Chain</span>
+    </div>
+    <div class="hm hm3">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQB9TNCg-JIDirKmb8xCXEZCzsOt6nrNXY7Pt4WZlbeGmlGTvZCZ4vMRRj7&s=10" alt="Solitaire diamond ring detail" />
+    </div>
+  </div>
+
+  <!-- Floating info cards -->
+  <div class="hero-floater hf1" aria-hidden="true">
+    <div class="floater-label">Crafted in</div>
+    <div class="floater-val">Lahore, Pakistan</div>
+    <div class="floater-badge">
+      <div class="floater-dot"></div>
+      Atelier Open
+    </div>
+  </div>
+  <div class="hero-floater hf2" aria-hidden="true">
+    <div class="floater-label">Materials</div>
+    <div class="floater-val">Silver Chain</div>
+  </div>
+
+  <!-- Hero text -->
+  <div class="hero-txt">
+    <p class="h-eye"><span class="h-dot"></span>Lahore · Est. 2024</p>
+    <h1 class="h-hl">Worn<br/>with <em>Quiet</em><br/>Authority.</h1>
+    <p class="h-sub">The Ashé Club crafts 18-karat fine jewellery engineered for a life of quiet confidence — born from flawless stones and unhurried craft. Designed to be inherited.</p>
+    <div class="h-cta">
+      <a href="#coll" class="btn-g">
+        Explore
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="btn-ghost">Private Viewing</a>
+    </div>
+  </div>
+
+  <div class="h-scroll" aria-hidden="true">
+    <div class="h-scroll-l"></div>
+    Scroll
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  TICKER  (two identical sets for seamless infinite loop)
+  ════════════════════════════════════════════════════════ -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner">
+    <!-- Set A -->
+    <div class="ticker-set">
+      <span class="ti">Ethically Sourced<span class="ti-gem">✦</span></span>
+      <span class="ti">18-Karat Solid Gold<span class="ti-gem">✦</span></span>
+      <span class="ti">Flawless Diamonds<span class="ti-gem">✦</span></span>
+      <span class="ti">Colombian Emeralds<span class="ti-gem">✦</span></span>
+      <span class="ti">Swiss Movements<span class="ti-gem">✦</span></span>
+      <span class="ti">Bespoke Atelier<span class="ti-gem">✦</span></span>
+      <span class="ti">Lahore · Pakistan<span class="ti-gem">✦</span></span>
+    </div>
+    <!-- Set B — exact duplicate, keeps loop seamless -->
+    <div class="ticker-set" aria-hidden="true">
+      <span class="ti">Ethically Sourced<span class="ti-gem">✦</span></span>
+      <span class="ti">18-Karat Solid Gold<span class="ti-gem">✦</span></span>
+      <span class="ti">Flawless Diamonds<span class="ti-gem">✦</span></span>
+      <span class="ti">Colombian Emeralds<span class="ti-gem">✦</span></span>
+      <span class="ti">Swiss Movements<span class="ti-gem">✦</span></span>
+      <span class="ti">Bespoke Atelier<span class="ti-gem">✦</span></span>
+      <span class="ti">Lahore · Pakistan<span class="ti-gem">✦</span></span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  PHILOSOPHY — THE ATELIER
+  ════════════════════════════════════════════════════════ -->
+<section id="philo" aria-label="Brand philosophy">
+
+  <div class="pt">
+    <p class="s-eye rev">The Atelier</p>
+    <h2 class="s-hl rev d1">Less is<br/><em>Everything.</em></h2>
+    <p class="s-body rev d2">We strip away the excess. True luxury does not announce itself — it simply exists in a state of perfection. Our master goldsmiths work with structural integrity, light dynamics, and ethically sourced flawless materials.</p>
+    <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="lnk-arrow rev d3">
+      Book a Private Viewing
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+    <div class="philo-stats rev">
+      <div><div class="ps-n">18k</div>   <div class="ps-l">Solid Gold</div></div>
+      <div><div class="ps-n">100%</div>  <div class="ps-l">Ethically Sourced</div></div>
+      <div><div class="ps-n">∞</div>     <div class="ps-l">Heirloom Quality</div></div>
+    </div>
+  </div>
+
+  <div class="pi">
+    <div class="pi-inner">
+      <img src="https://static-01.daraz.pk/p/aba4302ab9274602df53c239a84e71bc.jpg" alt="Goldsmith at work in the Ashé atelier" />
+    </div>
+    <div class="pi-frame" aria-hidden="true"></div>
+    <div class="pi-card" aria-hidden="true">
+      <div class="pi-cl">ITEM:</div>
+      <div class="pi-cv">TOPS</div>
+      <div class="pi-badge"><div class="pi-dot"></div>Hallmarked</div>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  ICON PIECE — SPECIAL ITEM
+  ════════════════════════════════════════════════════════ -->
+<section id="special" aria-label="Season's icon piece">
+
+  <span class="spec-sparkle ss1" aria-hidden="true">✦</span>
+  <span class="spec-sparkle ss2" aria-hidden="true">✦</span>
+  <span class="spec-sparkle ss3" aria-hidden="true">✦</span>
+
+  <div class="spec-wrap">
+
+    <!-- Image column -->
+    <div class="spec-img-col rev">
+      <div class="spec-img-main">
+        <img src="https://m.media-amazon.com/images/I/31ZCG3AtIkL.jpg" alt="The Arabic Aura Watch OG" />
+        <div class="spec-img-badge">✦ Icon Piece</div>
+      </div>
+      <div class="spec-img-sub">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4OMUEeyRLUUuathN1dUuxin-A7ZZporPCjMRqNHXH_86oas8YVrNQ4zmr&s=10" alt="Watch movement detail" />
+      </div>
+      <div class="spec-ring" aria-hidden="true"></div>
+    </div>
+
+    <!-- Text column -->
+    <div class="spec-txt rev d2">
+      <div class="spec-eye">
+        <div class="spec-eye-line"></div>
+        Season's Icon
+      </div>
+      <h2 class="spec-hl">The <em>Arabic</em><br/>Aura Watch OG</h2>
+      <p class="spec-desc">Our most coveted creation of the season. A breathtaking Colombian emerald dial featuring custom Eastern Arabic indices, enclosed in a micro-pavé diamond bezel of 18k white gold. Engineered to capture morning light.</p>
+      <div class="spec-material">
+        <span class="spec-chip"><span class="spec-chip-dot" style="background:var(--emerald-lt)"></span>Arabic Dial Numbers</span>
+        <span class="spec-chip"><span class="spec-chip-dot" style="background:#e8e8f0"></span>2 Different Variants</span>
+        <span class="spec-chip"><span class="spec-chip-dot" style="background:var(--gold)"></span>Gives Aura To Soul</span>
+      </div>
+      <div class="spec-price-row">
+        <div class="spec-price">PKR 985</div>
+        <div class="spec-price-lbl">/ One of Twelve</div>
+      </div>
+      <div class="spec-cta-row">
+        <!-- BUG FIX: closing </a> was missing here, and </div> for spec-cta-row was missing -->
+        <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="btn-spec">
+          Enquire on WhatsApp
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  COLLECTION GRID — Data-driven. To add/edit products,
+  update the `products` array in the <script> block at
+  the bottom of this file. No HTML changes needed.
+  ════════════════════════════════════════════════════════ -->
+<section id="coll" aria-label="Jewellery collection">
+
+  <div class="coll-hdr">
+    <div>
+      <p class="s-eye rev">The Collection</p>
+      <h2 class="coll-ttl rev d1">Objects of <em>Refinement</em></h2>
+    </div>
+    <!-- Filter buttons are auto-generated from the products array -->
+    <div id="filter-bar" class="fps rev d2" role="group" aria-label="Filter by category"></div>
+  </div>
+
+  <!-- Product cards are injected here by renderProducts() -->
+  <div class="mg" id="product-grid"></div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  ATELIER PROCESS
+  ════════════════════════════════════════════════════════ -->
+<section id="xp" aria-label="Atelier process">
+
+  <div class="xp-head">
+    <p class="s-eye rev" style="justify-content:center">The Process</p>
+    <h2 class="s-hl rev d1" style="font-size:clamp(2rem,4vw,3.8rem);margin-bottom:0">From <em>Stone</em> to Heirloom</h2>
+  </div>
+
+  <div class="xp-grid">
+
+    <div class="xp-step rev">
+      <div class="xp-num">01</div>
+      <div class="xp-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      </div>
+      <div class="xp-ttl">Stone Curation</div>
+      <p class="xp-txt">Each stone is personally selected from ethical mines. Only the top 1% of specimens are accepted into our atelier.</p>
+    </div>
+
+    <div class="xp-step rev d1">
+      <div class="xp-num">02</div>
+      <div class="xp-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M8 12l2 2 4-4"/></svg>
+      </div>
+      <div class="xp-ttl">Design & Sketch</div>
+      <p class="xp-txt">Our master designers draft each piece by hand before translating to 3D parametric models reviewed for structural integrity.</p>
+    </div>
+
+    <div class="xp-step rev d2">
+      <div class="xp-num">03</div>
+      <div class="xp-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+      </div>
+      <div class="xp-ttl">Master Craft</div>
+      <p class="xp-txt">Skilled goldsmiths spend 40–80 hours per piece, hand-finishing every surface to a flawless, mirror-like standard.</p>
+    </div>
+
+    <div class="xp-step rev d3">
+      <div class="xp-num">04</div>
+      <div class="xp-icon">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="xp-ttl">Certified & Yours</div>
+      <p class="xp-txt">Every piece ships with a full GIA-standard certificate, care kit, and a custom engraving of your choosing.</p>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  QURANIC AYAH
+  ════════════════════════════════════════════════════════ -->
+<section id="ayah" aria-label="Quranic inspiration">
+
+  <div class="ayah-particle" style="left:15%;animation-duration:8s;animation-delay:0s"  aria-hidden="true"></div>
+  <div class="ayah-particle" style="left:35%;animation-duration:11s;animation-delay:2s" aria-hidden="true"></div>
+  <div class="ayah-particle" style="left:55%;animation-duration:9s;animation-delay:4s"  aria-hidden="true"></div>
+  <div class="ayah-particle" style="left:75%;animation-duration:13s;animation-delay:1s" aria-hidden="true"></div>
+  <div class="ayah-particle" style="left:88%;animation-duration:10s;animation-delay:3s" aria-hidden="true"></div>
+
+  <div class="ay-line" aria-hidden="true"></div>
+  <span class="ay-orn" aria-hidden="true">✦ ✦ ✦</span>
+
+  <p id="ay-ar" class="rev" lang="ar" dir="rtl">وَمِن كُلِّ شَيۡءٍ خَلَقۡنَا زَوۡجَيۡنِ لَعَلَّكُمۡ تَذَكَّرُونَ</p>
+  <p id="ay-tr" class="rev d1">And of every thing We have created pairs,<br/>that perhaps you may remember</p>
+  <span id="ay-ref" class="rev d2">— Surah Adh-Dhariyat, 51:49</span>
+
+  <div class="ay-line" style="margin-bottom:0" aria-hidden="true"></div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  TESTIMONIALS
+  ════════════════════════════════════════════════════════ -->
+<section id="reviews" aria-label="Client testimonials">
+
+  <div class="rv-hdr">
+    <p class="s-eye rev" style="justify-content:center">Clientele</p>
+    <h2 class="s-hl rev d1" style="font-size:clamp(2rem,4vw,3.6rem);margin-bottom:0">Worn with <em>Grace</em></h2>
+  </div>
+
+  <div class="rv-grid">
+
+    <div class="rv-card rev">
+      <div class="rv-stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <p class="rv-txt">"The minimalism of the Lumière is exactly what I desired. Flawless execution and a truly premium unboxing experience."</p>
+      <div class="rv-row">
+        <div class="rv-av" aria-hidden="true">A</div>
+        <div>
+          <div class="rv-nm">Ahmed Karim</div>
+          <div class="rv-loc">Lahore, Punjab</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv-card rev d1">
+      <div class="rv-stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <p class="rv-txt">"The Nashwa Bangle doesn't scream for attention, it simply commands it. Understated luxury at its absolute finest."</p>
+      <div class="rv-row">
+        <div class="rv-av" aria-hidden="true">S</div>
+        <div>
+          <div class="rv-nm">Sana Rehman</div>
+          <div class="rv-loc">Karachi, Sindh</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="rv-card rev d2">
+      <div class="rv-stars" aria-label="5 out of 5 stars">★★★★★</div>
+      <p class="rv-txt">"Purchased the Chronos Minimal. It rivals pieces three times its price. A truly exceptional, one-of-a-kind atelier."</p>
+      <div class="rv-row">
+        <div class="rv-av" aria-hidden="true">Z</div>
+        <div>
+          <div class="rv-nm">Zaid Baig</div>
+          <div class="rv-loc">Islamabad</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+  BESPOKE COMMISSION BANNER
+  ════════════════════════════════════════════════════════ -->
+<div id="bespoke" role="complementary" aria-label="Bespoke commissions">
+  <span class="bs-eye">Private Commission</span>
+  <h2 class="bs-hl rev">Something <em>Only</em><br/>for You.</h2>
+  <p class="bs-sub rev d1">Work directly with our master goldsmiths to create a piece that exists nowhere else in the world. One client, one vision, one jewel.</p>
+  <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="btn-bs rev d2">Begin Your Commission ✦</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+  FOOTER
+  ════════════════════════════════════════════════════════ -->
+<footer id="footer">
+  <div class="ft-grid">
+    <div>
+      <div class="ft-logo">Ashé</div>
+      <p class="ft-tag">Pakistan's most exclusive fine jewellery house. Crafted for a life lived with quiet confidence.</p>
+      <div class="ft-soc">
+
+        <!-- Instagram -->
+        <a href="https://instagram.com/theasheclub.collection" target="_blank" rel="noopener" class="ft-sb" aria-label="Follow us on Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
+        </a>
+
+        <!-- Facebook -->
+        <a href="https://www.facebook.com/profile.php?id=61590344381600" target="_blank" rel="noopener" class="ft-sb" aria-label="Follow us on Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="ft-sb" aria-label="Watch us on YouTube">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg>
+        </a>
+
+        <!-- WhatsApp #1 -->
+        <a href="https://wa.me/923256488623" target="_blank" rel="noopener" class="ft-sb" aria-label="Chat with us on WhatsApp">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+
+        <!-- WhatsApp #2 — add your second number below -->
+        <a href="https://wa.me/92XXXXXXXXXX" target="_blank" rel="noopener" class="ft-sb" aria-label="Chat with us on WhatsApp (2)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        </a>
+
+        <!-- Pinterest -->
+        <a href="https://pinterest.com" target="_blank" rel="noopener" class="ft-sb" aria-label="Follow us on Pinterest">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.236 2.636 7.855 6.356 9.312-.088-.791-.167-2.005.035-2.868.181-.78 1.172-4.97 1.172-4.97s-.299-.598-.299-1.482c0-1.388.806-2.428 1.808-2.428.852 0 1.265.64 1.265 1.408 0 .858-.546 2.140-.828 3.33-.236.995.499 1.806 1.476 1.806 1.772 0 3.135-1.867 3.135-4.561 0-2.385-1.715-4.052-4.163-4.052-2.836 0-4.5 2.127-4.5 4.326 0 .856.33 1.774.741 2.276a.3.3 0 0 1 .069.286c-.076.314-.244.995-.277 1.134-.044.183-.146.222-.337.134-1.249-.581-2.03-2.407-2.03-3.874 0-3.154 2.292-6.052 6.608-6.052 3.469 0 6.165 2.473 6.165 5.776 0 3.447-2.173 6.22-5.19 6.22-1.013 0-1.966-.527-2.292-1.148l-.623 2.378c-.226.869-.835 1.958-1.244 2.621.937.29 1.931.446 2.962.446 5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        </a>
+
+<a href="https://tiktok.com/@the.ashe.club" target="_blank" rel="noopener" class="ft-sb" aria-label="Follow us on TikTok">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.02 1.59 4.23.73.9 1.69 1.63 2.77 2.06v3.74c-1.1-.17-2.14-.68-3.01-1.38-.49-.39-.92-.86-1.27-1.39V15c0 1.32-.4 2.61-1.14 3.7-1.04 1.53-2.73 2.59-4.6 2.76-1.57.14-3.17-.29-4.47-1.2-1.37-.96-2.31-2.48-2.52-4.15-.3-2.37.95-4.75 3.06-5.83.92-.47 1.95-.71 2.99-.71.13 0 .26.01.39.02v3.66c-.67-.09-1.36.06-1.95.4-.95.55-1.52 1.61-1.45 2.71.07 1.15.82 2.18 1.88 2.62.94.39 2.02.26 2.85-.35.7-.51 1.12-1.34 1.12-2.21V0l.29.02z"/>
+  </svg>
+</a>
+
+      </div>
+    </div>
+    <div>
+      <h4 class="ft-ct">Explore</h4>
+      <ul class="ft-lks">
+        <li><a href="#coll">High Jewellery</a></li>
+        <li><a href="#coll">Fine Watches</a></li>
+        <li><a href="#philo">The Atelier</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="ft-ct">Client Care</h4>
+      <ul class="ft-lks">
+        <li><a href="https://wa.me/923256488623" target="_blank" rel="noopener">Concierge</a></li>
+        <li><a href="#">Bespoke Orders</a></li>
+        <li><a href="#">Jewellery Care</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="ft-ct">Legal</h4>
+      <ul class="ft-lks">
+        <li><button class="pol-btn" data-m="privacy">Privacy Policy</button></li>
+        <li><button class="pol-btn" data-m="refund">Refund Policy</button></li>
+      </ul>
+    </div>
+  </div>
+  <div class="ft-wm" aria-hidden="true">Ashé</div>
+  <div class="ft-bot">
+    <p>&copy; 2026 THE ASHÉ CLUB. ALL RIGHTS RESERVED.</p>
+    <p>Built by <a href="https://instagram.com/theasheclub.collection" target="_blank" rel="noopener">Muhammad Shayan</a></p>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+  FLOATING ACTIONS
+  BUG FIX: #spill-close is now a sibling of #spill,
+           NOT nested inside it. Nesting <button> in
+           <button> is invalid HTML and breaks click events.
+  ════════════════════════════════════════════════════════ -->
+<a id="wa-f" href="https://wa.me/923256488623" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- BUG FIX: was <button id="spill-close"> nested inside <button id="spill">.
+     Moved outside as a proper sibling element. -->
+<a id="spill" href="https://instagram.com/theasheclub.collection" target="_blank" rel="noopener" aria-label="Join the club">
+  <div class="spill-dot"></div>
+  Join the Club
+</a>
+<button id="spill-close" aria-label="Dismiss join club prompt">✕</button>
+<!-- ═══════════════════════════════════════════════════════
+  POLICY MODAL
+  ════════════════════════════════════════════════════════ -->
+<div id="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="m-ttl">
+  <div id="m-back"></div>
+  <div id="m-box">
+    <button id="m-close" aria-label="Close modal">✕</button>
+    <h2 id="m-ttl">Policy</h2>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   JAVASCRIPT
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. LOADER ───────────────────────────────────────────────────── */
+(function () {
+  const bar    = document.getElementById('lbar');
+  const loader = document.getElementById('loader');
+  let   pct    = 0;
+
+  const tick = setInterval(() => {
+    pct += Math.random() * 18 + 4;
+
+    if (pct >= 100) {
+      pct = 100;
+      clearInterval(tick);
+      setTimeout(() => {
+        loader.classList.add('hide');
+        setTimeout(() => loader.remove(), 1200);
+      }, 300);
+    }
+
+    bar.style.width = Math.min(pct, 100) + '%';
+  }, 80);
+})();
+
+
+/* ── 2. CUSTOM CURSOR ────────────────────────────────────────────── */
+if (window.matchMedia('(hover: hover)').matches) {
+  const dot  = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+  let   rx = 0, ry = 0, mx = 0, my = 0;
+
+  window.addEventListener('mousemove', e => {
+    mx = e.clientX;
+    my = e.clientY;
+    dot.style.left = mx + 'px';
+    dot.style.top  = my + 'px';
+  });
+
+  (function animateRing() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  document.querySelectorAll('a, button, .pc, .hm, .xp-step, .rv-card').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cur-big'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cur-big'));
+  });
+}
+
+
+/* ── 3. NAV SCROLL MORPH ─────────────────────────────────────────── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('sc', scrollY > 80), { passive: true });
+
+
+/* ── 4. SCROLL REVEAL ────────────────────────────────────────────── */
+const revealObserver = new IntersectionObserver(
+  entries => entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObserver.unobserve(e.target);
+    }
+  }),
+  { threshold: .1 }
+);
+document.querySelectorAll('.rev').forEach(el => revealObserver.observe(el));
+
+
+/* ── 5. STICKY "JOIN THE CLUB" PILL ─────────────────────────────── */
+const pill  = document.getElementById('spill');
+const close = document.getElementById('spill-close');
+let   shown = false;
+
+window.addEventListener('scroll', () => {
+  if (!shown && scrollY > 500) {
+    pill.classList.add('vis');
+    shown = true;
+  }
+}, { passive: true });
+
+pill.addEventListener('click', () => {
+  document.getElementById('nl').scrollIntoView({ behavior: 'smooth' });
+});
+
+close.addEventListener('click', () => {
+  pill.remove();
+  close.remove();
+});
+
+
+/* ── 6. PRODUCT DATA & COLLECTION GRID ──────────────────────────── */
+
+/*
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  PRODUCTS — Edit this array to add, remove, or change items  ║
+  ║                                                              ║
+  ║  Each product object has:                                    ║
+  ║    id      – unique string, e.g. 'p1'                        ║
+  ║    name    – product name shown on the card                  ║
+  ║    type    – subtitle shown below the name                   ║
+  ║    category– filter key: 'ring' | 'time' | 'neck' |          ║
+  ║              'brace' | 'ear'  (add new keys freely)          ║
+  ║    price   – price string, e.g. 'PKR 485,000'                ║
+  ║    img     – full image URL                                  ║
+  ║    badge   – optional { text, style } where style is 'g'     ║
+  ║              (gold) or 's' (sage/green). Omit for no badge.  ║
+  ╚══════════════════════════════════════════════════════════════╝
+
+  TO ADD A PRODUCT — just append a new object to the array:
+  { id: 'p7', name: 'My New Ring', type: 'Ring · 22k Gold',
+    category: 'ring', price: 'PKR 150,000',
+    img: 'https://...', badge: { text: 'New', style: 's' } },
+
+  The filter bar and grid rebuild themselves automatically.
+*/
+const products = [
+  {
+    id       : 'p1',
+    name     : 'Multicolor Artisan Leather Hobo',
+    type     : 'Bags · Leather',
+    category : 'bag',
+    price    : 'PKR 1850',
+    img      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI-d0pYRxUlq3yRSeLZjDiTtm2N4TWWxANKzVhTZRWF8ZIybfJXRE-GAA&s=10',
+    badge    : { text: 'Icon', style: 'g' }
+  },
+  {
+    id       : 'p2',
+    name     : 'Kashmiri Glass Bangle Set with Golden Charms',
+    type     : 'Bangles - Kashmiri',
+    category : 'bangle',
+    price    : 'PKR 1350',
+    img      : 'https://i.etsystatic.com/59761660/r/il/fcba04/8065492129/il_fullxfull.8065492129_eya1.jpg'
+  },
+  {
+    id       : 'p3',
+    name     : 'Personalized Name Pendant Necklace',
+    type     : 'Necklace · Custom',
+    category : 'neck',
+    price    : 'PKR 1300',
+    img      : 'https://pk-live-21.slatic.net/kf/Sb8ffadf786a64187a3f6cc597ff213e7b.jpg'
+  },
+  {
+    id       : 'p4',
+    name     : 'Classic Promise Ring for Women',
+    type     : 'RINGS - PREMIUM',
+    category : 'ring',
+    price    : 'PKR 1050',
+    img      : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFG412MunUq17z2xAPe2GHzEqvLbaEDQlgxfXt3z9VTVtDjUmnuHoL6j4&s=10',
+    badge    : { text: 'New', style: 's' }
+  },
+  {
+    id       : 'p5',
+    name     : 'Celestia Studs',
+    type     : 'Earrings · Platinum',
+    category : 'ear',
+    price    : 'PKR 3200',
+    img      : 'https://img.kwcdn.com/product/fancy/5f7b1f81-ae06-4df9-9714-0778a5ad3076.jpg'
+  },
+  {
+    id       : 'p6',
+    name     : "Classic Ladies' Quartz Wristwatch",
+    type     : 'Watches · Premium',
+    category : 'watch',
+    price    : 'PKR 1999',
+    img      : 'https://img.drz.lazcdn.com/static/pk/p/37e58622c99222ea5127983fd287aaa5.jpg_2200x2200q80.jpg_.webp'
+  }, // <-- Fixed: Added missing comma
+  {
+    id       : 'p7',
+    name     : 'Arabic Aura Watch',
+    type     : 'Watch · Aura Watch',
+    category : 'watch',
+    price    : 'PKR 999',
+    img      : 'https://m.media-amazon.com/images/I/31ZCG3AtIkL.jpg',
+    badge    : { text: 'Bestseller', style: 'g' }
+  }, // <-- Fixed: Added missing comma
+  {
+    id       : 'p8',
+    name     : 'Structured Evening Clutch with Gold Chain',
+    type     : 'Purse · Premium',
+    category : 'bag',
+    price    : 'PKR 5999',
+    img      : 'https://ae-pic-a1.aliexpress-media.com/kf/Sb4a2aa59158148b6b76d32e2b496f0e9r.jpg'
+  }
+  /* ← Add more products here */
+];
+
+/* ── Category labels (shown on filter buttons) ────────────────── */
+const categoryLabels = {
+  ring  : 'Rings',
+  time  : 'Watches',
+  neck  : 'Necklaces',
+  brace : 'Bracelets',
+  ear   : 'Earrings'
+  /* ← If you add a new category key above, add its label here */
+};
+
+/* ── Heart SVG (reused in every card) ────────────────────────── */
+const heartSVG = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+
+/* ── Build one card's HTML ─────────────────────────────────────── */
+function buildCard(p, index) {
+  const badgeHTML = p.badge
+    ? `<span class="p-badge ${p.badge.style}">${p.badge.text}</span>` : '';
+  const delay = ['', 'd1', 'd2', 'd3'][index % 4];
+  return `
+    <article class="pc rev ${delay}" data-t="${p.category}">
+      <div class="piw">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" />
+        ${badgeHTML}
+        <div class="p-ov"><button class="p-ov-btn">View Piece</button></div>
+      </div>
+      <div class="p-info">
+        <div class="p-type">${p.type}</div>
+        <div class="p-pr">
+          <h3 class="p-nm">${p.name}</h3>
+          <button class="p-hrt" aria-label="Add to wishlist">${heartSVG}</button>
+        </div>
+        <div class="p-prc">${p.price}</div>
+      </div>
+    </article>`;
+}
+
+/* ── Build filter bar ─────────────────────────────────────────── */
+function buildFilterBar() {
+  const bar = document.getElementById('filter-bar');
+  if (!bar) return;
+
+  /* Collect unique categories that actually exist in the data */
+  const usedCats = [...new Set(products.map(p => p.category))];
+
+  let html = `<button class="fp act" onclick="filterCollection('all', this)">All</button>`;
+  usedCats.forEach(cat => {
+    const label = categoryLabels[cat] || cat;
+    html += `<button class="fp" onclick="filterCollection('${cat}', this)">${label}</button>`;
+  });
+  bar.innerHTML = html;
+}
+
+/* ── Render all cards into the grid ──────────────────────────── */
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  if (!grid) return;
+  grid.innerHTML = products.map((p, i) => buildCard(p, i)).join('');
+
+  /* Re-observe new cards for scroll-reveal */
+  grid.querySelectorAll('.rev').forEach(el => revealObserver.observe(el));
+
+  /* Re-attach cursor hover listeners */
+  grid.querySelectorAll('.pc').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cur-big'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cur-big'));
+  });
+}
+
+/* ── Filter handler ──────────────────────────────────────────── */
+function filterCollection(category, btn) {
+  document.querySelectorAll('.fp').forEach(b => b.classList.remove('act'));
+  btn.classList.add('act');
+
+  document.querySelectorAll('.pc').forEach(card => {
+    const matches = category === 'all' || card.dataset.t === category;
+    card.style.transition    = 'opacity .4s, transform .4s';
+    card.style.opacity       = matches ? '1'    : '0.18';
+    card.style.transform     = matches ? ''     : 'scale(.97)';
+    card.style.pointerEvents = matches ? ''     : 'none';
+  });
+}
+
+/* ── Init on DOM ready ───────────────────────────────────────── */
+buildFilterBar();
+renderProducts();
+
+
+/* ── 7. POLICY MODAL ─────────────────────────────────────────────── */
+const modal = document.getElementById('modal');
+
+const policies = {
+  privacy: {
+    title: 'Privacy Policy',
+    body : 'We collect data strictly for site functionality. Any data breach or external vulnerability is explicitly not the structural or legal responsibility of the store.'
+  },
+  refund: {
+    title: 'Refund Policy',
+    body : 'Store policy strictly enforces 100% Advance Payment. All transactions are final. No refunds permitted under any circumstances.'
+  }
+};
+
+document.querySelectorAll('.pol-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const policy = policies[btn.dataset.m];
+    document.getElementById('m-ttl').textContent  = policy.title;
+    document.getElementById('m-body').textContent = policy.body;
+    modal.classList.add('op');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeModal() {
+  modal.classList.remove('op');
+  modal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('m-close').addEventListener('click', closeModal);
+document.getElementById('m-back' ).addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+</script>
+</body>
+</html>
