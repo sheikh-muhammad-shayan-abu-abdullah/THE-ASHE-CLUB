@@ -193,6 +193,114 @@ input,select,textarea{font-family:inherit;}
 @keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}50.1%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
 @media(max-width:560px){.hero{padding-top:calc(var(--nav-h) + 16px);}.hero-orb{width:340px;height:340px;}}
 
+
+
+/* ===== SIMPLE CLIENTS GRID ===== */
+.simple-client-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 40px;
+}
+.simple-client-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  text-align: center;
+  transition: border-color var(--transition-fast), transform var(--transition-fast);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+a.simple-client-card:hover {
+  border-color: var(--gold);
+  transform: translateY(-4px);
+}
+div.simple-client-card {
+  opacity: 0.8;
+}
+div.simple-client-card:hover {
+  border-color: var(--border-accent);
+}
+.scc-logo {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--gold-dim);
+  border: 1px solid var(--border-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  color: var(--gold);
+  font-size: 1.4rem;
+}
+.scc-name {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+.scc-meta {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ===== ORDERING OPTIONS ===== */
+.ordering-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 40px;
+}
+@media (max-width: 768px) {
+  .ordering-grid { grid-template-columns: 1fr; }
+}
+.order-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color var(--transition-base);
+}
+.order-card:hover {
+  border-color: var(--gold);
+}
+img.scc-logo {
+  object-fit: cover;
+  background: var(--bg-card); /* Keeps transparent PNGs looking clean */
+  padding: 2px; /* Slight breathing room inside the gold border */
+}
+.order-icon {
+  width: 42px;
+  height: 42px;
+  color: var(--gold);
+  margin-bottom: 24px;
+}
+.order-title {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+.order-desc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+
+
+
 /* ===== LOGO MARQUEE (trust strip) ===== */
 .marquee-section{padding:36px 0;border-top:1px solid var(--border-subtle);border-bottom:1px solid var(--border-subtle);overflow:hidden;position:relative;}
 .marquee-label{text-align:center;font-family:var(--font-mono);font-size:0.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.18em;margin-bottom:22px;}
@@ -583,92 +691,132 @@ input,select,textarea{font-family:inherit;}
 </div>
 
 <section class="section" id="work">
-  <!-- Section Header -->
   <div class="section__label reveal" data-en="Selected Archive" data-ar="أبرز الأعمال">Selected Archive</div>
   <h2 class="section__title reveal">
     <span data-en="A Portfolio of" data-ar="محفظة من">A Portfolio of</span><br>
     <em data-en="Distinction." data-ar="التميز.">Distinction.</em>
   </h2>
 
-  <!-- Work Grid -->
-  <div class="work-grid">
-  
-
-  <!-- Item 1: Mashroob -->
-<a href="https://mashroob-juices.netlify.app" target="_blank" class="work-card tilt-card lg reveal">
-  <div class="tilt-inner">
-    <div class="work-img">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRR4blXA2Y3-TL5VZ5o8t9uHF_Dz2DAvnzQ1XC-V7w8Ms9ots-S6Z57LOhv&s=10" alt="Mashroob Juice Bar Project Preview">
-    </div>
-    <div class="work-meta">
+  <div class="simple-client-grid reveal rv1">
+    
+    <a href="https://mashroob-juice.netlify.app" target="_blank" class="simple-client-card magnetic">
+      <img src="https://i.postimg.cc/N2yXfmX3/mashroob.png" alt="Mashroob Logo" class="scc-logo">
       <div>
-        <h3 class="work-title">Mashroob</h3>
-        <span class="work-tags" data-en="Juice Bar / Islamabad" data-ar="بار عصير / إسلام آباد">Juice Bar / Islamabad</span>
+        <h3 class="scc-name">Mashroob</h3>
+        <span class="scc-meta" data-en="Juices Bar / Islamabad" data-ar="بار عصير / إسلام آباد">Juices Bar / Islamabad</span>
       </div>
-      <div class="work-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </div>
-    </div>
-  </div>
-</a>
+    </a>
 
-<!-- Item 2: Karachi United FC -->
-<a href="https://karachiunited.com/" class="work-card tilt-card sm reveal rv1">
-  <div class="tilt-inner">
-    <div class="work-img">
-      <img src="https://karachiunited.com/wp-content/uploads/2023/10/p1.jpg" alt="Karachi United FC Preview">
-    </div>
-    <div class="work-meta">
+    <a href="https://zaitoonksa.com/" target="_blank" class="simple-client-card magnetic">
+      <img src="https://zaitoonksa.com/wp-content/uploads/2025/11/FAV-icon.png" alt="Zaitoon Logo" class="scc-logo">
       <div>
-        <h3 class="work-title">Karachi United FC</h3>
-        <span class="work-tags" data-en="Football Team / Karachi" data-ar="فريق كرة قدم / كراتشي">Football Team / Karachi</span>
+        <h3 class="scc-name">Zaitoon Restaurant</h3>
+        <span class="scc-meta" data-en="Restaurant / Jeddah" data-ar="مطعم / جدة">Restaurant / Jeddah</span>
       </div>
-      <div class="work-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </div>
-    </div>
-  </div>
-</a>
+    </a>
 
-<!-- Item 3: Zaitoon -->
-<a href="https://zaitoonksa.com/" class="work-card tilt-card sm reveal">
-  <div class="tilt-inner">
-    <div class="work-img">
-      <img src="https://zaitoonksa.com/wp-content/uploads/2025/11/FAV-icon.png" alt="Zaitoon">
-    </div>
-    <div class="work-meta">
+    <a href="https://drench.netlify.app/" target="_blank" class="simple-client-card magnetic">
+      <img src="https://i.postimg.cc/GhHgB3QD/drench.png" alt="Drench Logo" class="scc-logo">
       <div>
-        <h3 class="work-title">Zaitoon Restaurant</h3>
-        <span class="work-tags" data-en="Restaurant / Jeddah" data-ar="مطعم / جدة">Restaurant / Jeddah</span>
+        <h3 class="scc-name">Drench Royal Orchard</h3>
+        <span class="scc-meta" data-en="Retail / Pakistan" data-ar="تجزئة / باكستان">Retail / Pakistan</span>
       </div>
-      <div class="work-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-      </div>
-    </div>
-  </div>
-</a>
+    </a>
 
-<!-- Item 4: I-DESIGN -->
-<a href="https://idesignar.com/" class="work-card tilt-card lg reveal rv1">
-  <div class="tilt-inner">
-    <div class="work-img">
-      <img src="https://idesignar.com/wp-content/uploads/2024/12/2.png" alt="I-Design Architect & Developers">
-    </div>
-    <div class="work-meta">
+    <a href="https://idesignar.com/" target="_blank" class="simple-client-card magnetic">
+      <img src="https://idesignar.com/wp-content/uploads/2024/12/2.png" alt="I-Design Logo" class="scc-logo">
       <div>
-        <h3 class="work-title">I-Design Architect & Developers</h3>
-        <span class="work-tags" data-en="Architect / Khanpur" data-ar="تصميم معماري / خانبور">Architect / Khanpur</span>
+        <h3 class="scc-name">I-Design</h3>
+        <span class="scc-meta" data-en="Architects / Khanpur" data-ar="معماريون / خانبور">Architects / Khanpur</span>
       </div>
-      <div class="work-arrow">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+
+    <a href="https://jointforcesprecadetschool.netlify.app/" target="_blank" class="simple-client-card magnetic">
+      <img src="https://i.postimg.cc/wjsdxmT1/joint-forces.png" alt="Joint Forces Logo" class="scc-logo">
+      <div>
+        <h3 class="scc-name">Joint Forces Pre Cadet</h3>
+        <span class="scc-meta" data-en="Education" data-ar="تعليم">Education</span>
+      </div>
+    </a>
+
+    <a href="https://kinzas-clothing.netlify.app" target="_blank" class="simple-client-card magnetic">
+      <img src="https://scontent.fmux2-1.fna.fbcdn.net/v/t39.30808-6/712644390_122094656259358357_3495961107918017385_n.jpg?stp=dst-jpg_tt6&cstp=mx1600x1600&ctp=s1600x1600&_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=8f0kcc4_JP0Q7kNvwFwm2Ho&_nc_oc=AdpzrbRBjl3oRkG7XnSiFEm-fi7WYq-jmy7pDhAZa8_YqOJh746g2IbKKobBMV1l18g&_nc_zt=23&_nc_ht=scontent.fmux2-1.fna&_nc_gid=8tFXPa-NXcyhhL_8fR--oA&_nc_ss=7b289&oh=00_AQBihUdjh8dUxrLyM0tTR6LYwPesfZBKQMGv-ypNk6d7eQ&oe=6A4ACA53" alt="Kinza's Clothing Logo" class="scc-logo">
+      <div>
+        <h3 class="scc-name">Kinza's Clothing</h3>
+        <span class="scc-meta" data-en="Fashion Apparels" data-ar="أزياء وملابس">Fashion Apparels</span>
+      </div>
+    </a>
+
+    <div class="simple-client-card no-link">
+      <img src="https://i.postimg.cc/tT90zvdw/ac-lalessano.png" alt="AC Lalessano Logo" class="scc-logo">
+      <div>
+        <h3 class="scc-name">Ac Lalessano FC</h3>
+        <span class="scc-meta" data-en="Football Club" data-ar="نادي كرة قدم">Football Club</span>
       </div>
     </div>
-  </div>
-</a>
+
+    <div class="simple-client-card no-link">
+      <img src="https://scontent.fmux2-1.fna.fbcdn.net/v/t39.30808-6/344957586_186060461030950_5374173699284689484_n.jpg?stp=dst-jpg_tt6&cstp=mx1080x1080&ctp=s1080x1080&_nc_cat=106&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=JwXT47o2gh4Q7kNvwHYPwXO&_nc_oc=AdoGGmXCEDvz6CpPJB9dKyvXKmNBvvppA8EdbV0FRdtbwNZAkO3kcnJ-B9hc_Fiadpo&_nc_zt=23&_nc_ht=scontent.fmux2-1.fna&_nc_gid=aLt335J0ySAXCYHWTZCYtQ&_nc_ss=7b289&oh=00_AQB509rAgkBAmC_yHbhChpdSUdnzcuPjYG0d9lmrLn9IdQ&oe=6A4ABE02" alt="Cafe De Chariot Logo" class="scc-logo">
+      <div>
+        <h3 class="scc-name">Cafe De Chariot</h3>
+        <span class="scc-meta" data-en="Cafe & Dining" data-ar="مقهى ومطعم">Cafe & Dining</span>
+      </div>
+    </div>
+
+    <div class="simple-client-card no-link">
+      <img src="https://p19-common-sign.tiktokcdn.com/tos-alisg-avt-0068/a40d2dbb28c41945ad8d4402741322ae~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=5e97c273&x-expires=1783076400&x-signature=5I6a6V9XYmLHfJKA%2BR7ZEJY2sTc%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=my3" alt="Finefable Logo" class="scc-logo">
+      <div>
+        <h3 class="scc-name">Finefable</h3>
+        <span class="scc-meta" data-en="Creative Agency" data-ar="وكالة إبداعية">Creative Agency</span>
+      </div>
+    </div>
+
   </div>
 </section>
+
 <div class="divider"></div>
 
+<section class="section" id="ordering-solutions">
+  <div class="section__label reveal" data-en="Commerce Integration" data-ar="تكامل التجارة">Commerce Integration</div>
+  <h2 class="section__title reveal">
+    <span data-en="Frictionless" data-ar="أنظمة">Frictionless</span><br>
+    <em data-en="Ordering." data-ar="طلب سلسة.">Ordering.</em>
+  </h2>
+  
+  <div class="ordering-grid reveal rv1">
+    <div class="order-card tilt-card">
+      <div class="tilt-inner">
+        <svg class="order-icon" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 2.114.549 4.14 1.595 5.945L.057 24l6.233-1.617A11.947 11.947 0 0012 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12zm0 21.799a9.79 9.79 0 01-4.989-1.367l-.356-.212-3.698.959.984-3.591-.233-.37A9.774 9.774 0 012.201 12c0-5.411 4.407-9.799 9.799-9.799 5.411 0 9.799 4.388 9.799 9.799 0 5.411-4.388 9.799-9.799 9.799z"/>
+        </svg>
+        <h3 class="order-title" data-en="WhatsApp Native" data-ar="الطلب عبر واتساب">WhatsApp Native</h3>
+        <p class="order-desc" data-en="A highly localized solution where your custom website catalogue directly links to a pre-filled WhatsApp message. Perfect for immediate customer communication and manual fulfillment." data-ar="حل محلي للغاية حيث يرتبط كتالوج موقعك المخصص مباشرة برسالة واتساب معبأة مسبقًا. مثالي للتواصل الفوري وإتمام الطلبات يدويًا.">A highly localized solution where your custom website catalogue directly links to a pre-filled WhatsApp message. Perfect for immediate customer communication and manual fulfillment.</p>
+      </div>
+    </div>
+
+    <div class="order-card tilt-card">
+      <div class="tilt-inner">
+        <svg class="order-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"></circle>
+          <circle cx="20" cy="21" r="1"></circle>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+        </svg>
+        <h3 class="order-title" data-en="Shopify Embed" data-ar="تكامل شوبيفاي">Shopify Embed</h3>
+        <p class="order-desc" data-en="Enterprise-grade e-commerce infrastructure layered invisibly into your custom design. Benefit from Shopify's robust backend for inventory and payments without compromising on aesthetics." data-ar="بنية تحتية للتجارة الإلكترونية على مستوى المؤسسات مدمجة بسلاسة في تصميمك المخصص. استفد من واجهة شوبيفاي الخلفية القوية للمخزون والمدفوعات دون التنازل عن الجماليات.">Enterprise-grade e-commerce infrastructure layered invisibly into your custom design. Benefit from Shopify's robust backend for inventory and payments without compromising on aesthetics.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+<div class="divider"></div>
 <section class="section section--alt" id="services">
   <div class="section__label reveal" data-en="Capabilities" data-ar="قدراتنا">Capabilities</div>
   <h2 class="section__title reveal">
